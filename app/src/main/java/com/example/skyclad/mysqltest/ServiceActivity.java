@@ -13,13 +13,14 @@ public class ServiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service);
     }
     public void startService(View view){
-        Intent i = new Intent(this,MyService.class);
-        i.putExtra("message","DANK MEMES BRUH");
+        Intent i = new Intent(MyService.class.getName());
+        //Intent i = new Intent(this,MyService.class);
+        //i.putExtra("message","DANK MEMES BRUH");
         startService(i);
     }
 
     public void stopService(View view){
-        Intent i = new Intent(this,MyService.class);
+        Intent i = new Intent(MyService.class.getName());//new Intent(this,MyService.class);
         stopService(i);
     }
 }

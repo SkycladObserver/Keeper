@@ -4,9 +4,9 @@ package com.example.skyclad.mysqltest;
  * Created by acer on 10/29/2016.
  */
 
-public class Users {
+public class User {
     private String name,uname,pass;
-    public Users(String name,String uname,String pass){
+    public User(String name, String uname, String pass){
         this.setName(name);
         this.setUName(uname);
         this.setPass(pass);

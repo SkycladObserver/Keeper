@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -30,9 +31,23 @@
         <activity android:name=".ServiceActivity" />
 
         <service
+            android:process=":remote"
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="com.example.skyclad.mysqltest.MyService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".BootReceiver">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
