@@ -12,7 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    EditText etName, etPass; //I MADE SOME MEMES
+    EditText etName, etPass;
+    //i made some memes;
     TextView status;
     String name, pass;
     @Override
