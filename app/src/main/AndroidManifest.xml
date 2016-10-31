@@ -26,7 +26,13 @@
         <activity android:name=".Json" />
         <activity android:name=".DisplayListView" />
         <activity android:name=".PostLoginActivity" />
-        <activity android:name=".AddItemActivity"></activity>
+        <activity android:name=".AddItemActivity" />
+        <activity android:name=".ServiceActivity" />
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

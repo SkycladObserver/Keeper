@@ -1,5 +1,6 @@
 package com.example.skyclad.mysqltest;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             status.setText("Network not found.");
         Log.d("Error","after if statement");
     }
+    public void startService(View view){ startActivity(new Intent(this, ServiceActivity.class)); }
     public void butReg(View view){
         startActivity(new Intent(this,Register.class));
     }
