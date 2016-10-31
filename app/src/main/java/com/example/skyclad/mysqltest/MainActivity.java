@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     EditText etName, etPass;
-    //i made some memes;
+    //i made some memes in AddItem
     TextView status;
     String name, pass;
     @Override
