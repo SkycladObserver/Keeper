@@ -24,7 +24,6 @@ public class MyService extends Service {
     private Timer timer;
     String jsonString;
     String jsonData;
-    Item item = new Item();
     User user;
     int count = 0;
     private TimerTask updateTask = new TimerTask() {

@@ -31,23 +31,22 @@
         <activity android:name=".ServiceActivity" />
 
         <service
-            android:process=":remote"
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:process=":remote">
             <intent-filter>
-                <action
-                    android:name="com.example.skyclad.mysqltest.MyService" />
+                <action android:name="com.example.skyclad.mysqltest.MyService" />
             </intent-filter>
         </service>
-        <receiver
-            android:name=".BootReceiver">
+
+        <receiver android:name=".BootReceiver">
             <intent-filter>
-                <action
-                    android:name="android.intent.action.BOOT_COMPLETED">
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".RecyclerViewActivity"></activity>
     </application>
 
 </manifest>

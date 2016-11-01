@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,Register.class));
     }
     public void butData(View view) {startActivity(new Intent(this,Json.class));}
+    public void butList(View view) {startActivity(new Intent(this,RecyclerViewActivity.class));}
     public void butLogin(View view){
         name = etName.getText().toString();
         pass = etPass.getText().toString();

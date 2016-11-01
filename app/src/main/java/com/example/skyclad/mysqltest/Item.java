@@ -5,7 +5,14 @@ package com.example.skyclad.mysqltest;
  */
 
 public class Item {
-    public Item(){
-
+    //photo not yet included
+    int type;
+    String name,description, location, uploader;
+    boolean claimed;
+    public Item(String name, String description, String location){
+        this.name = name;
+        this.description = description;
+        this.location = location;
     }
+
 }
