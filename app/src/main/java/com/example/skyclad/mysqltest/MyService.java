@@ -26,6 +26,7 @@ public class MyService extends Service {
     String jsonData;
     Item item = new Item();
     User user;
+    int count = 0;
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -49,10 +50,9 @@ public class MyService extends Service {
                 Log.d(TAG,jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                int count = 0;
                 String name,uname,pass;
                 Log.d("ListView","inside try");
-                while (count <jsonArray.length()){
+                if (count <jsonArray.length()){
                     Log.d("ListView","inside while");
                     JSONObject JO = jsonArray.getJSONObject(count);
                     name = JO.getString("name");
@@ -64,7 +64,6 @@ public class MyService extends Service {
                     }
                     Log.d(TAG,user.getName()+" "+user.getUName()+" "+user.getPass());
                     count++;
-                    break;
                     //userAdapter.add(user);
                 }
                 synchronized (listeners) {

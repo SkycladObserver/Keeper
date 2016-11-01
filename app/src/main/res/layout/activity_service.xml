@@ -14,20 +14,29 @@
         android:text="Start Service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="27dp"
         android:id="@+id/butStartService"
-        android:onClick="startService"/>
+        android:onClick="startService"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="Stop SErvice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:id="@+id/butStopService"
+        android:onClick="stopService"
         android:layout_below="@+id/butStartService"
         android:layout_alignLeft="@+id/butStartService"
-        android:layout_alignStart="@+id/butStartService"
-        android:layout_marginTop="87dp"
-        android:id="@+id/butStopService"
-        android:onClick="stopService"/>
+        android:layout_alignStart="@+id/butStartService" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/butStopService"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:id="@+id/data" />
 </RelativeLayout>
