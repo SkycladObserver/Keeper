@@ -3,11 +3,11 @@ package com.example.skyclad.mysqltest;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.os.RemoteException;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -24,6 +24,8 @@ public class MyService extends Service {
     private Timer timer;
     String jsonString;
     String jsonData;
+    Item item = new Item();
+    User user;
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -45,6 +47,22 @@ public class MyService extends Service {
                      jsonData=sb.toString().trim();
                 }
                 Log.d(TAG,jsonData);
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                int count = 0;
+                String name,uname,pass;
+                Log.d("ListView","inside try");
+                while (count <jsonArray.length()){
+                    Log.d("ListView","inside while");
+                    JSONObject JO = jsonArray.getJSONObject(count);
+                    name = JO.getString("name");
+                    uname = JO.getString("uname");
+                    pass = JO.getString("pass");
+                    Log.d("ListView",name+" "+uname+" "+pass);
+                    user = new User(name,uname,pass);
+                    //userAdapter.add(user);
+                    count++;
+                }
             }catch (Throwable t) { /* you should always ultimately catch
 									   all exceptions in timer tasks, or
 									   they will be sunk */
@@ -55,27 +73,37 @@ public class MyService extends Service {
     };
     private final Object resultLock = new Object();
 
-    private List<ItemListener> itemListeners = new ArrayList<ItemListener>();
+    private List<ItemListener> listeners = new ArrayList<ItemListener>();
 
     private AidlApi.Stub apiEndpoint = new AidlApi.Stub(){
         @Override
-        public User getParcelableItem() throws RemoteException {
-            return null;
+        public User getUser() throws RemoteException {
+            synchronized (resultLock) {
+                return user;
+            }
         }
 
         @Override
         public void addListener(ItemListener listener) throws RemoteException {
-
+            synchronized (listeners) {
+                listeners.add(listener);
+            }
         }
 
         @Override
         public void removeListener(ItemListener listener) throws RemoteException {
-
+            synchronized (listeners) {
+                listeners.remove(listener);
+            }
         }
     };
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        return null;
+        if (MyService.class.getName().equals(intent.getAction())) {
+            Log.d(TAG, "Bound by intent " + intent);
+            return apiEndpoint;
+        } else {
+            return null;
+        }
     }
 
     @Override
