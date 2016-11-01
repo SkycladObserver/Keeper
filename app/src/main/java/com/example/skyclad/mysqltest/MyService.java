@@ -58,10 +58,23 @@ public class MyService extends Service {
                     name = JO.getString("name");
                     uname = JO.getString("uname");
                     pass = JO.getString("pass");
-                    Log.d("ListView",name+" "+uname+" "+pass);
-                    user = new User(name,uname,pass);
-                    //userAdapter.add(user);
+
+                    synchronized (resultLock) {
+                        user = new User(name,uname,pass);
+                    }
+                    Log.d(TAG,user.getName()+" "+user.getUName()+" "+user.getPass());
                     count++;
+                    break;
+                    //userAdapter.add(user);
+                }
+                synchronized (listeners) {
+                    for (ItemListener listener : listeners) {
+                        try {
+                            listener.handleListUpdated();
+                        } catch (RemoteException e) {
+                            Log.w(TAG, "Failed to notify listener " + listener, e);
+                        }
+                    }
                 }
             }catch (Throwable t) { /* you should always ultimately catch
 									   all exceptions in timer tasks, or
