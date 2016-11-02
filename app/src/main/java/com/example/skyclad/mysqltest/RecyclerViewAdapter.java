@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return users.size();
     }
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name,uname,pass;
         ImageView img;
         public MyViewHolder(View itemView) {
@@ -62,12 +62,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             uname = (TextView) itemView.findViewById(R.id.uname);
             pass = (TextView) itemView.findViewById(R.id.pass);
             img = (ImageView) itemView.findViewById(R.id.icon);
-            img.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            delete(getAdapterPosition());
         }
     }
 }
