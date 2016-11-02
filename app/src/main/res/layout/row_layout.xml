@@ -1,31 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="75dp">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id = "@+id/row_layout"
+    android:background="@drawable/custom_bg"
+    android:clickable="true">
+    <ImageView
+        android:padding="8dp"
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"/>
+
     <TextView
-        android:layout_height="match_parent"
-        android:layout_width="120dp"
-        android:layout_alignParentLeft="true"
-        android:text="skycladobserver"
-        android:id="@id/name"
-        android:gravity="center"
-        android:textAppearance="?android:textAppearanceLarge"
-        />
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="120dp"
-        android:layout_alignParentLeft="true"
-        android:text="skycladobserver"
-        android:id="@id/uname"
-        android:gravity="center"
-        android:textAppearance="?android:textAppearanceLarge"
-        />
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="120dp"
-        android:layout_alignParentLeft="true"
-        android:text="skycladobserver"
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="pass"
         android:id="@id/pass"
         android:gravity="center"
-        android:textAppearance="?android:textAppearanceLarge"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="61dp"
+        android:layout_marginEnd="61dp" />
+
+    <TextView
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="uname"
+        android:id="@id/uname"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="name"
+        android:id="@id/name"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon" />
+
+
 </RelativeLayout>

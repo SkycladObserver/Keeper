@@ -10,39 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.skyclad.mysqltest.MainActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginTop="54dp"
-        android:id="@+id/pass"
-        android:layout_below="@+id/uname"
-        android:layout_alignLeft="@+id/uname"
-        android:layout_alignStart="@+id/uname" />
-
-    <Button
-        android:text="Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/butLogin"
-        android:layout_alignLeft="@+id/butLogin"
-        android:layout_alignStart="@+id/butLogin"
-        android:layout_marginTop="40dp"
-        android:onClick="butReg"
-        android:id="@+id/butReg" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:layout_marginTop="32dp"
-        android:id="@+id/uname"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:text="Login"
         android:layout_width="wrap_content"
@@ -72,4 +39,55 @@
         android:layout_below="@+id/butData"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginTop="103dp"
+        android:id="@+id/pass"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/uname"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:onClick="butReg"
+        android:id="@+id/butReg"
+        android:layout_below="@+id/butLogin"
+        android:layout_alignRight="@+id/pass"
+        android:layout_alignEnd="@+id/pass" />
+
+    <Button
+        android:text="Service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_alignBaseline="@+id/butReg"
+        android:layout_alignBottom="@+id/butReg"
+        android:layout_toLeftOf="@+id/status"
+        android:layout_toStartOf="@+id/status"
+        android:onClick="startService"/>
+
+    <Button
+        android:text="List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/status"
+        android:layout_alignLeft="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:id="@+id/button4"
+        android:onClick="butList"/>
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class DisplayListView extends AppCompatActivity {
                 uname = JO.getString("uname");
                 pass = JO.getString("pass");
                 Log.d("ListView",name+" "+uname+" "+pass);
-                Users user = new Users(name,uname,pass);
+                User user = new User(name,uname,pass);
                 userAdapter.add(user);
                 count++;
             }

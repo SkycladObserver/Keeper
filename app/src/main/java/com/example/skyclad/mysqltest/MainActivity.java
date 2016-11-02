@@ -1,5 +1,6 @@
 package com.example.skyclad.mysqltest;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     EditText etName, etPass;
-    //i made some memes;
+    //i made some memes in AddItem
     TextView status;
     String name, pass;
     @Override
@@ -37,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
             status.setText("Network not found.");
         Log.d("Error","after if statement");
     }
+    public void startService(View view){ startActivity(new Intent(this, ServiceActivity.class)); }
     public void butReg(View view){
         startActivity(new Intent(this,Register.class));
     }
     public void butData(View view) {startActivity(new Intent(this,Json.class));}
+    public void butList(View view) {startActivity(new Intent(this,RecyclerViewActivity.class));}
     public void butLogin(View view){
         name = etName.getText().toString();
         pass = etPass.getText().toString();

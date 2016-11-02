@@ -22,7 +22,7 @@ public class UserAdapter extends ArrayAdapter{
         super(context, resource);
     }
 
-    public void add(Users object) {
+    public void add(User object) {
         super.add(object);
         list.add(object);
     }
@@ -56,7 +56,7 @@ public class UserAdapter extends ArrayAdapter{
         else{
             userHolder = (UserHolder)row.getTag();
         }
-        Users user = (Users) this.getItem(position);
+        User user = (User) this.getItem(position);
         userHolder.name.setText(user.getName());
         userHolder.uname.setText(user.getUName());
         userHolder.pass.setText(user.getPass());
