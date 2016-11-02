@@ -25,6 +25,7 @@ public class MyService extends Service {
     String jsonString;
     String jsonData;
     User user;
+    List<User> users = new ArrayList<User>();
     int count = 0;
     private TimerTask updateTask = new TimerTask() {
         @Override
@@ -51,7 +52,7 @@ public class MyService extends Service {
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
                 String name,uname,pass;
                 Log.d("ListView","inside try");
-                if (count <jsonArray.length()){
+                while (count <jsonArray.length()){
                     Log.d("ListView","inside while");
                     JSONObject JO = jsonArray.getJSONObject(count);
                     name = JO.getString("name");
@@ -59,11 +60,11 @@ public class MyService extends Service {
                     pass = JO.getString("pass");
 
                     synchronized (resultLock) {
-                        user = new User(name,uname,pass);
+                        users.add(user = new User(name,uname,pass));
                     }
+
                     Log.d(TAG,user.getName()+" "+user.getUName()+" "+user.getPass());
                     count++;
-                    //userAdapter.add(user);
                 }
                 synchronized (listeners) {
                     for (ItemListener listener : listeners) {
@@ -93,7 +94,12 @@ public class MyService extends Service {
                 return user;
             }
         }
-
+        @Override
+        public List<User> getUsers() throws RemoteException{
+            synchronized (resultLock) {
+                return users;
+            }
+        }
         @Override
         public void addListener(ItemListener listener) throws RemoteException {
             synchronized (listeners) {
@@ -129,7 +135,6 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "Service destroying");
-
         timer.cancel();
         timer = null;
     }

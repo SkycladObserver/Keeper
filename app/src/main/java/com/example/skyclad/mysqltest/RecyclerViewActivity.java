@@ -18,11 +18,14 @@ import java.util.List;
 public class RecyclerViewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerViewDataHelper recyclerViewDataHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
+        recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
+
         recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),getData());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,13 +46,20 @@ public class RecyclerViewActivity extends AppCompatActivity {
         List<User> users = new ArrayList<User>();
         Log.d("RecyclerView","before dummyData array");
         String dummyData[] = {"brent","dank","memes","daryl","lol","dfq","HAHAHAHA"};
-        for(int i = 0; i <= 100; i++) {
+        for(int i = 0; i < dummyData.length; i++) {
             Log.d("RecyclerView", "inside for loop");
-            users.add(new User(dummyData[i%4],dummyData[i%4],dummyData[i%4]));
+            users.add(new User(dummyData[i],dummyData[i],dummyData[i]));
             Log.d("RecyclerView",users.get(i).getName()+" "+users.get(i).getUName()+users.get(i).getPass());
         }
         return users;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        recyclerViewAdapter.endService();
+    }
+
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;

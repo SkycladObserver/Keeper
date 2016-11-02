@@ -8,6 +8,7 @@ import com.example.skyclad.mysqltest.User;
 
 interface AidlApi {
     User getUser();
+    List<User> getUsers();
     void addListener(ItemListener listener);
     void removeListener(ItemListener listener);
 }
