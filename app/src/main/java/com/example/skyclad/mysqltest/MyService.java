@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,13 +26,13 @@ public class MyService extends Service {
     String jsonString;
     String jsonData;
     User user;
-    List<User> users = new ArrayList<User>();
-    int count = 0;
+    List<User> users =  Collections.emptyList();
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
             Log.i(TAG, "Timer task doing work");
             try {
+                users = new ArrayList<User>();
                 String json_url = "http://skycladobserver.net23.net/json_get_data.php";
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -52,7 +53,8 @@ public class MyService extends Service {
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
                 String name,uname,pass;
                 Log.d("ListView","inside try");
-                while (count <jsonArray.length()){
+                int count = 0;
+                while (count<jsonArray.length()){
                     Log.d("ListView","inside while");
                     JSONObject JO = jsonArray.getJSONObject(count);
                     name = JO.getString("name");
@@ -61,9 +63,8 @@ public class MyService extends Service {
 
                     synchronized (resultLock) {
                         users.add(user = new User(name,uname,pass));
+                        Log.d("ServiceThread",user.getName()+" "+user.getUName()+" "+user.getPass());
                     }
-
-                    Log.d(TAG,user.getName()+" "+user.getUName()+" "+user.getPass());
                     count++;
                 }
                 synchronized (listeners) {
@@ -138,26 +139,4 @@ public class MyService extends Service {
         timer.cancel();
         timer = null;
     }
-
-    /*@Override
-    public void onCreate() {
-        super.onCreate();
-        Toast.makeText(this,"Service is created",Toast.LENGTH_LONG).show();
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this,"Service is started",Toast.LENGTH_LONG).show();
-        String message = intent.getStringExtra("message");
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        Toast.makeText(this,"Service is stopped",Toast.LENGTH_LONG).show();
-    }*/
 }

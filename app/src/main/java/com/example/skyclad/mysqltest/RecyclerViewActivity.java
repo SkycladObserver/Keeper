@@ -26,7 +26,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
 
-        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),getData());
+        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
@@ -40,18 +40,6 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"onLongClick "+position, Toast.LENGTH_SHORT).show();
             }
         }));
-    }
-    private List<User> getData(){
-        Log.d("RecyclerView","before list instantiation");
-        List<User> users = new ArrayList<User>();
-        Log.d("RecyclerView","before dummyData array");
-        String dummyData[] = {"brent","dank","memes","daryl","lol","dfq","HAHAHAHA"};
-        for(int i = 0; i < dummyData.length; i++) {
-            Log.d("RecyclerView", "inside for loop");
-            users.add(new User(dummyData[i],dummyData[i],dummyData[i]));
-            Log.d("RecyclerView",users.get(i).getName()+" "+users.get(i).getUName()+users.get(i).getPass());
-        }
-        return users;
     }
 
     @Override

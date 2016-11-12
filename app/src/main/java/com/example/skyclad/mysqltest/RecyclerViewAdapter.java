@@ -30,7 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Handler handler;
     AidlApi api;
 
-    public RecyclerViewAdapter(Context context,List<User> users){
+    public RecyclerViewAdapter(Context context){
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.handler = new Handler();
@@ -106,8 +106,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void run() {
                 try {
                     users = api.getUsers();
+                    Log.d("ServiceThread","Users Arraylist size: "+users.size());
                     Log.d("ServiceThread","getItemCount: "+getItemCount());
-                    notifyItemRangeChanged(0,users.size());
+                    notifyDataSetChanged();
                     Log.d("ServiceThread","after notify getItemCount: "+getItemCount());
                    // if(users.size()>getItemCount()){
                     //    notifyItemInserted(0);
