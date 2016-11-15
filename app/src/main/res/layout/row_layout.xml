@@ -16,14 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="time"
+        android:text="name"
+        android:id="@id/name"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="61dp"
-        android:layout_marginEnd="61dp"
-        android:id="@+id/time" />
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon" />
 
     <TextView
         android:padding="8dp"
@@ -32,19 +30,20 @@
         android:layout_gravity="center_vertical"
         android:text="description"
         android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/description" />
+        android:id="@+id/description"
+        android:layout_alignBottom="@+id/icon"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon" />
 
     <TextView
         android:padding="8dp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="name"
-        android:id="@id/name"
+        android:text="time"
         android:gravity="center"
-        android:layout_alignParentTop="true"
+        android:id="@+id/time"
+        android:layout_below="@+id/icon"
         android:layout_toRightOf="@+id/icon"
         android:layout_toEndOf="@+id/icon" />
 

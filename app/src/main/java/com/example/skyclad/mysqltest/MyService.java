@@ -41,7 +41,7 @@ public class MyService extends Service {
             try {
                 String timestamp = "2016-11-07 09:12:08";
                 //Timestamp timestamp = Timestamp.valueOf("2016-11-07 09:12:08");
-                users = new ArrayList<User>();
+                items = new ArrayList<Item>();
                 String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -69,19 +69,27 @@ public class MyService extends Service {
                 Log.d(TAG,jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                String name,uname,pass;
+                int itemID, type, claimed;
+                String name, description, location, time, uploader, email;
                 Log.d("ListView","inside try");
                 int count = 0;
                 while (count<jsonArray.length()){
                     Log.d("ListView","inside while");
                     JSONObject JO = jsonArray.getJSONObject(count);
+                    itemID = JO.getInt("itemID");
                     name = JO.getString("name");
-                    uname = JO.getString("uname");
-                    pass = JO.getString("pass");
+                    description = JO.getString("description");
+                    location = JO.getString("location");
+                    time = JO.getString("time");
+                    uploader = JO.getString("uname");
+                    email = JO.getString("email");
+                    type = JO.getInt("type");
+                    claimed = JO.getInt("claimed");
+                    //timestamp = JO.get()
 
                     synchronized (resultLock) {
-                        users.add(user = new User(name,uname,pass));
-                        Log.d("ServiceThread",user.getName()+" "+user.getUName()+" "+user.getPass());
+                        items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed));
+                        Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
                     }
                     count++;
                 }
