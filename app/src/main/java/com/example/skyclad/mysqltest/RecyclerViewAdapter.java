@@ -24,7 +24,8 @@ import java.util.List;
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
-    List<User> users = Collections.emptyList();
+    //List<User> users = Collections.emptyList();
+    List<Item> items = Collections.emptyList();
     private LayoutInflater inflater;
     Context context;
     Handler handler;
@@ -45,7 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void delete(int position){
-        users.remove(position);
+        items.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -53,10 +54,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         Log.d("RecyclerView", "onBindViewHolder "+position);
-        User current = users.get(position);
+        Item current = items.get(position);
         holder.name.setText(current.getName());
-        holder.uname.setText(current.getUName());
-        holder.pass.setText(current.getPass());
+        holder.description.setText(current.getDescription());
+        holder.time.setText(current.getTime());
     }
     ItemListener.Stub itemListener = new ItemListener.Stub(){
 
@@ -105,8 +106,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void run() {
                 try {
-                    users = api.getUsers();
-                    Log.d("ServiceThread","Users Arraylist size: "+users.size());
+                    items = api.getItems();
+                    Log.d("ServiceThread","Users Arraylist size: "+items.size());
                     Log.d("ServiceThread","getItemCount: "+getItemCount());
                     notifyDataSetChanged();
                     Log.d("ServiceThread","after notify getItemCount: "+getItemCount());
@@ -124,16 +125,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
     @Override
     public int getItemCount() {
-        return users.size();
+        return items.size();
     }
     class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView name,uname,pass;
+        TextView name,time,description;
         ImageView img;
         public MyViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
-            uname = (TextView) itemView.findViewById(R.id.uname);
-            pass = (TextView) itemView.findViewById(R.id.pass);
+            time = (TextView) itemView.findViewById(R.id.time);
+            description = (TextView) itemView.findViewById(R.id.description);
             img = (ImageView) itemView.findViewById(R.id.icon);
         }
     }

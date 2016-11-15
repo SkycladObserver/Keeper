@@ -10,10 +10,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,16 +31,29 @@ public class MyService extends Service {
     String jsonString;
     String jsonData;
     User user;
+    Item item;
+    List<Item> items =  Collections.emptyList();
     List<User> users =  Collections.emptyList();
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
             Log.i(TAG, "Timer task doing work");
             try {
+                String timestamp = "2016-11-07 09:12:08";
+                //Timestamp timestamp = Timestamp.valueOf("2016-11-07 09:12:08");
                 users = new ArrayList<User>();
-                String json_url = "http://skycladobserver.net23.net/json_get_data.php";
+                String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                /*httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream os = httpURLConnection.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                String data = URLEncoder.encode("timestamp", "UTF-8") + "=" + URLEncoder.encode(timestamp, "UTF-8");
+                bw.write(data);
+                bw.flush();
+                bw.close();
+                os.close();*/
                 InputStream is = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
                 StringBuilder sb = new StringBuilder();
@@ -93,6 +111,18 @@ public class MyService extends Service {
         public User getUser() throws RemoteException {
             synchronized (resultLock) {
                 return user;
+            }
+        }
+        @Override
+        public Item getItem() throws RemoteException {
+            synchronized (resultLock) {
+                return item;
+            }
+        }
+        @Override
+        public List<Item> getItems() throws RemoteException{
+            synchronized (resultLock) {
+                return items;
             }
         }
         @Override

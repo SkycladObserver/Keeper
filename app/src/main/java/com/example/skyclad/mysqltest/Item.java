@@ -9,9 +9,10 @@ import android.os.Parcelable;
 
 public class Item implements Parcelable{
     //photo not yet included
-    int type, claimed;
+    int itemID, type, claimed;
     String name, description, location, time, uploader, email;
-    public Item(String name, String description, String location, String time, String uploader, String email, int type, int claimed){
+    public Item(int itemID, String name, String description, String location, String time, String uploader, String email, int type, int claimed){
+        this.itemID = itemID;
         this.name = name;
         this.description = description;
         this.location = location;
@@ -22,6 +23,7 @@ public class Item implements Parcelable{
         this.claimed = claimed;
     }
     protected Item(Parcel in) {
+        itemID = in.readInt();
         name = in.readString();
         description = in.readString();
         location = in.readString();
@@ -43,6 +45,9 @@ public class Item implements Parcelable{
             return new Item[size];
         }
     };
+    public int getItemID(){
+        return itemID;
+    }
     public String getName(){
         return name;
     }
@@ -74,6 +79,7 @@ public class Item implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getItemID());
         dest.writeString(getName());
         dest.writeString(getDescription());
         dest.writeString(getLocation());
