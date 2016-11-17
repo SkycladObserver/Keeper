@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,6 +53,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         //10.0.2.2
         //String reg_url = "http://10.101.9.90/webapp/register.php";
         //String login_url = "http://10.101.9.90/webapp/login.php";
+        String add_item_url = "http://skycladobserver.net23.net/add_item.php";
         String json_url = "http://skycladobserver.net23.net/json_get_data.php";
         String reg_url = "http://skycladobserver.net23.net/register.php";
         String login_url = "http://skycladobserver.net23.net/login.php";
@@ -119,6 +121,49 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else if(method.equals("addItem")){
+            String name = params[1];
+            String description = params[2];
+            String location = params[3];
+            String time = params[3];
+            String type = params[4];
+            String intType = type.equals("Lost")? "0": "1";
+            Log.d("addItem", "Before try");
+            try {
+                URL url = new URL(add_item_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setConnectTimeout(10000);
+                httpURLConnection.setReadTimeout(10000);
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&" +
+                        URLEncoder.encode("description", "UTF-8") + "=" + URLEncoder.encode(description, "UTF-8") + "&" +
+                        URLEncoder.encode("location", "UTF-8") + "=" + URLEncoder.encode(location, "UTF-8") + "&" +
+                        URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(time, "UTF-8") + "&" +
+                        URLEncoder.encode("claimed", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8") + "&" +
+                        URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode(intType, "UTF-8") + "&" +
+                        URLEncoder.encode("userID", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
+                Log.d("addItem",data);
+                bw.write(data);
+                bw.flush();
+                bw.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                httpURLConnection.disconnect();
+                Log.d("addItem", "Add Successful");
+                return "Add Successful";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }catch(ConnectException e){
+                Toast.makeText(ctx, "Was not able to add item due to connection problems. Please try again.", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }else if(method.equals("getJson")){
             try {
                 URL url = new URL(json_url);
