@@ -13,7 +13,7 @@ public class ViewPagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int tabIcon = R.drawable.ic_sheep_silhouette;
+        int[] tabIcons = {R.drawable.ic_account,R.drawable.ic_lost,R.drawable.ic_found};
         setContentView(R.layout.activity_view_pager);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -36,7 +36,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         });
         tabLayout.setupWithViewPager(viewPager);
         for(int i = 0; i<3;i++){
-            tabLayout.getTabAt(i).setIcon(tabIcon);
+            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
         }
     }
 

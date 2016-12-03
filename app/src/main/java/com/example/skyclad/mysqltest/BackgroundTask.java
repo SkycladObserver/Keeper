@@ -201,7 +201,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 alertDialog.setMessage(result);
                 alertDialog.show();
             }else{
-                ctx.startActivity(new Intent(ctx,PostLoginActivity.class));
+                ctx.startActivity(new Intent(ctx,ViewPagerActivity.class));
             }
         }else if (method.equals("getJson")){
             TextView tv = (TextView) rootView;

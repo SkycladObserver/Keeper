@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,16 +27,18 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     //List<User> users = Collections.emptyList();
-    List<Item> items = Collections.emptyList();
+    String data;
+    ArrayList<Item> items = new ArrayList<Item>();
     private LayoutInflater inflater;
     Context context;
     Handler handler;
     AidlApi api;
 
-    public RecyclerViewAdapter(Context context){
+    public RecyclerViewAdapter(Context context, String data){
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.handler = new Handler();
+        this.data = data;
         startService();
     }
     @Override
@@ -106,9 +110,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void run() {
                 try {
-                    items = api.getItems();
-                    Log.d("ServiceThread","Users Arraylist size: "+items.size());
-                    Log.d("ServiceThread","getItemCount: "+getItemCount());
+                    items = new ArrayList<Item>();
+                    List<Item> tempItems = api.getItems();
+                    for(Item i : tempItems){
+                        if ((i.getType()==0 && data.equals("Lost"))||
+                                (i.getType()==1 && data.equals("Found"))) {
+                            items.add(i);
+                        }
+                    }
+                    Log.d("viewPager",data);
+                    Log.d("viewPager","Users Arraylist size: "+items.size());
+                    Log.d("viewPager","getItemCount: "+getItemCount());
                     notifyDataSetChanged();
                     Log.d("ServiceThread","after notify getItemCount: "+getItemCount());
                    // if(users.size()>getItemCount()){

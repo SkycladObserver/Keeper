@@ -28,7 +28,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recycler_view);
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
-        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext());
+        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),"");
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(1000);
         animator.setRemoveDuration(1000);

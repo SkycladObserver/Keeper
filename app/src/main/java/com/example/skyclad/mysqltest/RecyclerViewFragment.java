@@ -44,7 +44,7 @@ public class RecyclerViewFragment extends Fragment {
     @Override public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView);
-        recyclerViewAdapter = new RecyclerViewAdapter(rootView.getContext());
+        recyclerViewAdapter = new RecyclerViewAdapter(rootView.getContext(),data);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerViewFragment.RecyclerTouchListener(container.getContext(), recyclerView, new RecyclerViewFragment.ClickListener() {
