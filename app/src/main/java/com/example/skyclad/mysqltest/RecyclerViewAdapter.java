@@ -27,8 +27,10 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     //List<User> users = Collections.emptyList();
+    private boolean changeDataSet;
     String data;
     ArrayList<Item> items = new ArrayList<Item>();
+    ArrayList<Item> itemHolder = new ArrayList<Item>();
     private LayoutInflater inflater;
     Context context;
     Handler handler;
@@ -39,6 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.context = context;
         this.handler = new Handler();
         this.data = data;
+        changeDataSet = true;
         startService();
     }
     @Override
@@ -49,6 +52,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return holder;
     }
 
+    public void canChangeDataSet(boolean bool){
+        changeDataSet = bool;
+    }
     public void delete(int position){
         items.remove(position);
         notifyItemRemoved(position);
@@ -89,6 +95,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Log.d("Service Thread", "Service connection closed");
         }
     };
+    public void resetData(){
+        items = new ArrayList<Item>();
+        items.addAll(itemHolder);
+        notifyDataSetChanged();
+    }
     public void startService(){
         Intent i = new Intent(MyService.class.getName());
         context.startService(i);
@@ -111,17 +122,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void run() {
                 try {
                     items = new ArrayList<Item>();
+                    itemHolder = new ArrayList<Item>();
                     List<Item> tempItems = api.getItems();
                     for(Item i : tempItems){
                         if ((i.getType()==0 && data.equals("Lost"))||
                                 (i.getType()==1 && data.equals("Found"))) {
                             items.add(i);
+                            itemHolder.add(i);
                         }
                     }
                     Log.d("viewPager",data);
                     Log.d("viewPager","Users Arraylist size: "+items.size());
                     Log.d("viewPager","getItemCount: "+getItemCount());
-                    notifyDataSetChanged();
+                    if(changeDataSet)
+                        notifyDataSetChanged();
+                    Log.d("search",Boolean.toString(changeDataSet));
                     Log.d("ServiceThread","after notify getItemCount: "+getItemCount());
                    // if(users.size()>getItemCount()){
                     //    notifyItemInserted(0);
@@ -149,5 +164,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             description = (TextView) itemView.findViewById(R.id.description);
             img = (ImageView) itemView.findViewById(R.id.icon);
         }
+    }
+
+    public void setFilter(String query){
+        ArrayList<Item> newList = new ArrayList<>();
+        for(Item i : itemHolder){
+            if(i.getName().toLowerCase().contains(query)){
+                newList.add(i);
+            }
+        }
+        items = new ArrayList<Item>();
+        items.addAll(newList);
+        notifyDataSetChanged();
     }
 }
