@@ -14,12 +14,10 @@ public class ViewPagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int tabIcon = R.drawable.ic_sheep_silhouette;
-        //int tabIcon = 1;
         setContentView(R.layout.activity_view_pager);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        //tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
             public void onTabSelected(TabLayout.Tab tab){
@@ -40,16 +38,13 @@ public class ViewPagerActivity extends AppCompatActivity {
         for(int i = 0; i<3;i++){
             tabLayout.getTabAt(i).setIcon(tabIcon);
         }
-        Log.d("viewPager","before getTabAt");
-        //tabLayout.getTabAt(0).setIcon(tabIcon);
-        Log.d("viewPager","after getTabAt");
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(AccountFragment.newInstance("this data is for fragment 1"), "One");
-        adapter.addFragment(RecyclerViewFragment.newInstance("this data is for fragment 2"), "lost");
-        adapter.addFragment(RecyclerViewFragment.newInstance("this data is for fragment 2"), "found");
+        adapter.addFragment(AccountFragment.newInstance("Account"), "One");
+        adapter.addFragment(RecyclerViewFragment.newInstance("Lost"), "Lost");
+        adapter.addFragment(RecyclerViewFragment.newInstance("Found"), "Found");
         viewPager.setAdapter(adapter);
     }
 }

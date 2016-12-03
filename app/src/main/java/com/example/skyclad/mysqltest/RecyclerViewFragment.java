@@ -17,11 +17,10 @@ import android.widget.Toast;
 
 public class RecyclerViewFragment extends Fragment {
 
-    protected RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private static final String ARG_EXAMPLE = "recyclerViewFragment";
-    private String example_data;
+    private static final String ARG = "recyclerViewFragment";
+    private String data;
     public RecyclerViewFragment() {
 
     }
@@ -29,15 +28,15 @@ public class RecyclerViewFragment extends Fragment {
     public static RecyclerViewFragment newInstance(String argument) {
         RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_EXAMPLE, argument);
+        args.putString(ARG, argument);
         recyclerViewFragment.setArguments(args);
         return recyclerViewFragment;
     }
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        example_data = getArguments().getString(ARG_EXAMPLE);
-        Log.i("Fragment created with ", example_data);
+        data = getArguments().getString(ARG);
+        Log.d("viewPager", data);
     }
 
 
@@ -51,7 +50,7 @@ public class RecyclerViewFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerViewFragment.RecyclerTouchListener(container.getContext(), recyclerView, new RecyclerViewFragment.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(container.getContext(),"onClick "+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(container.getContext(),data+" onClick "+position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -59,8 +58,6 @@ public class RecyclerViewFragment extends Fragment {
                 Toast.makeText(container.getContext(),"onLongClick "+position, Toast.LENGTH_SHORT).show();
             }
         }));
-        Log.d("viewPager","before inflate");
-        //changed here
         return rootView;
 
     }

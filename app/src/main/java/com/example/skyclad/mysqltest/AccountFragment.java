@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 public class AccountFragment extends Fragment {
 
-    private static final String ARG_EXAMPLE = "accountFragment";
-    private String example_data;
+    private static final String ARG = "accountFragment";
+    private String data;
     public AccountFragment() {
 
     }
@@ -21,24 +21,20 @@ public class AccountFragment extends Fragment {
     public static AccountFragment newInstance(String argument) {
         AccountFragment accountFragment = new AccountFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_EXAMPLE, argument);
+        args.putString(ARG, argument);
         accountFragment.setArguments(args);
         return accountFragment;
     }
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        example_data = getArguments().getString(ARG_EXAMPLE);
-        Log.i("Fragment created with ", example_data);
+        data = getArguments().getString(ARG);
+        Log.d("viewPager", data);
     }
 
 
     @Nullable
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        Log.d("viewPager","before inflate");
-        //changed here
         return inflater.inflate(R.layout.fragment_account,container,false);
-
     }
 }
