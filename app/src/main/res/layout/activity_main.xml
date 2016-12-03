@@ -11,16 +11,6 @@
     tools:context="com.example.skyclad.mysqltest.MainActivity">
 
     <Button
-        android:text="Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:id="@+id/butLogin"
-        android:onClick="butLogin"
-        android:layout_below="@+id/pass"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:text="Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,4 +80,26 @@
         android:layout_alignStart="@+id/button3"
         android:id="@+id/button4"
         android:onClick="butList"/>
+
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:id="@+id/butLogin"
+        android:onClick="butLogin"
+        android:layout_below="@+id/pass"
+        android:layout_alignLeft="@+id/butReg"
+        android:layout_alignStart="@+id/butReg" />
+
+    <Button
+        android:text="viewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button5"
+        android:layout_alignBaseline="@+id/butLogin"
+        android:layout_alignBottom="@+id/butLogin"
+        android:layout_alignLeft="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:onClick="butViewPager" />
 </RelativeLayout>

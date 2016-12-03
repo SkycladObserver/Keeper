@@ -42,11 +42,12 @@
 
         <receiver android:name=".BootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".RecyclerViewActivity"></activity>
+        <activity android:name=".RecyclerViewActivity" />
+        <activity android:name=".ViewPagerActivity"></activity>
     </application>
 
 </manifest>

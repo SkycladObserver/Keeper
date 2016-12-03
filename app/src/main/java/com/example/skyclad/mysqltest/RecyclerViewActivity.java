@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,8 +28,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recycler_view);
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
         recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
-
         recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext());
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(1000);
+        animator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(animator);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {

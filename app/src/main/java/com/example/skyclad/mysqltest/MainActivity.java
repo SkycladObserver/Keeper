@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void butData(View view) {startActivity(new Intent(this,Json.class));}
     public void butList(View view) {startActivity(new Intent(this,RecyclerViewActivity.class));}
+    public void butViewPager(View view) {startActivity(new Intent(this,ViewPagerActivity.class));}
     public void butLogin(View view){
         name = etName.getText().toString();
         pass = etPass.getText().toString();
