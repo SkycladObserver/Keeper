@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -31,6 +32,7 @@ public class MyService extends Service {
     private static final String TAG = "ServiceThread";
     private Timer timer;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     String jsonString;
     String jsonData;
     User user;
@@ -44,7 +46,6 @@ public class MyService extends Service {
             try {
                 String timestamp = "2016-11-07 09:12:08";
                 //Timestamp timestamp = Timestamp.valueOf("2016-11-07 09:12:08");
-                items = new ArrayList<Item>();
                 String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -67,8 +68,7 @@ public class MyService extends Service {
                 is.close();
                 httpURLConnection.disconnect();
                 synchronized (resultLock){
-                     jsonData=sb.toString().trim();
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    jsonData=sb.toString().trim();
                     editor.putString("jsonData",jsonData);
                     editor.commit();
                 }
@@ -78,6 +78,7 @@ public class MyService extends Service {
                 int itemID, type, claimed;
                 String name, description, location, time, uploader, email;
                 Log.d("ListView","inside try");
+                items = new ArrayList<Item>();
                 int count = 0;
                 while (count<jsonArray.length()){
                     Log.d("ListView","inside while");
@@ -116,9 +117,6 @@ public class MyService extends Service {
             }
         }
     };
-    public void setSharedPreferences(Context ctx){
-        sharedPreferences = ctx.getSharedPreferences("ItemData",ctx.MODE_PRIVATE);
-    }
     private final Object resultLock = new Object();
 
     private List<ItemListener> listeners = new ArrayList<ItemListener>();
@@ -174,8 +172,37 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        String parse = sharedPreferences.getString("jsonData","{}");
+        sharedPreferences = getSharedPreferences("ItemData",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String parse = sharedPreferences.getString("jsonData","{server_response:[]}");
         items = new ArrayList<Item>();
+        try {
+            JSONObject jsonObject = new JSONObject(parse);
+            JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+            int itemID, type, claimed;
+            String name, description, location, time, uploader, email;
+            int count = 0;
+            while (count<jsonArray.length()){
+                JSONObject JO = jsonArray.getJSONObject(count);
+                itemID = JO.getInt("itemID");
+                name = JO.getString("name");
+                description = JO.getString("description");
+                location = JO.getString("location");
+                time = JO.getString("time");
+                uploader = JO.getString("uname");
+                email = JO.getString("email");
+                type = JO.getInt("type");
+                claimed = JO.getInt("claimed");
+                //timestamp = JO.get()
+                synchronized (resultLock) {
+                    items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed));
+                    Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
+                }
+                count++;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.i(TAG, "Service creating");
         timer = new Timer("ServiceTimer");
         timer.schedule(updateTask, 1000L, 5000L);
