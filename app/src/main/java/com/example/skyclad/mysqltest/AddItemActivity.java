@@ -2,6 +2,7 @@ package com.example.skyclad.mysqltest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +36,10 @@ public class AddItemActivity extends AppCompatActivity {
         time = eTime.getText().toString();
         String method = "addItem";
         BackgroundTask bgTask = new BackgroundTask(this);
-        bgTask.execute(method,name,description,location,time,type);
+        String intType = type.equalsIgnoreCase("Lost") ? "0" : "1";
+        Log.d("login",type);
+        Log.d("login",intType);
+        bgTask.execute(method,name,description,location,time,intType);
         finish();
     }
 }

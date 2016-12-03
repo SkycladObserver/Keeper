@@ -34,18 +34,21 @@ import java.net.URLEncoder;
 
 public class BackgroundTask extends AsyncTask<String,Void,String> {
     int userID;
+    public static final String DEFAULT = "N/A";
     String fname,lname,uname,pass,email;
     String jsonString;
     String jsonData;
     String method;
+    SharedPreferences sharedPreferences;
     AlertDialog alertDialog;
     Context ctx;
     View rootView;
     public BackgroundTask(Context ctx){
         this.ctx = ctx;
+        sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
     }
     public BackgroundTask(Context ctx,View rootView){
-        this.ctx = ctx;
+        super();
         this.rootView = rootView;
     }
 
@@ -119,10 +122,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 InputStream is = httpURLConnection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
                 Log.d("login","IS instantiate");
-                //String line = "";
-                //while ((line = br.readLine())!=null){
-                //    response += line;
-                //}
                 StringBuilder sb = new StringBuilder();
                 String jsonString = "";
                 while((jsonString = br.readLine())!=null){
@@ -157,9 +156,9 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
             String name = params[1];
             String description = params[2];
             String location = params[3];
-            String time = params[3];
-            String type = params[4];
-            String intType = type.equals("Lost")? "0": "1";
+            String time = params[4];
+            String type = params[5];
+            String userID = Integer.toString(sharedPreferences.getInt("userID",0));
             Log.d("addItem", "Before try");
             try {
                 URL url = new URL(add_item_url);
@@ -175,8 +174,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                         URLEncoder.encode("location", "UTF-8") + "=" + URLEncoder.encode(location, "UTF-8") + "&" +
                         URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(time, "UTF-8") + "&" +
                         URLEncoder.encode("claimed", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8") + "&" +
-                        URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode(intType, "UTF-8") + "&" +
-                        URLEncoder.encode("userID", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
+                        URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode(type, "UTF-8") + "&" +
+                        URLEncoder.encode("userID", "UTF-8") + "=" + URLEncoder.encode(userID, "UTF-8");
                 Log.d("addItem",data);
                 bw.write(data);
                 bw.flush();
@@ -231,7 +230,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
             Toast.makeText(ctx,result, Toast.LENGTH_LONG).show();
         else if (method.equals("login")) {
             if(result.equals("{}")){
-                alertDialog.setMessage(result);
+                alertDialog.setMessage("Login Failed. Please try again.");
                 alertDialog.show();
             }else{
                 SharedPreferences sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);

@@ -1,7 +1,9 @@
 package com.example.skyclad.mysqltest;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -28,6 +30,7 @@ import java.util.TimerTask;
 public class MyService extends Service {
     private static final String TAG = "ServiceThread";
     private Timer timer;
+    SharedPreferences sharedPreferences;
     String jsonString;
     String jsonData;
     User user;
@@ -65,6 +68,9 @@ public class MyService extends Service {
                 httpURLConnection.disconnect();
                 synchronized (resultLock){
                      jsonData=sb.toString().trim();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("jsonData",jsonData);
+                    editor.commit();
                 }
                 Log.d(TAG,jsonData);
                 JSONObject jsonObject = new JSONObject(jsonData);
@@ -110,6 +116,9 @@ public class MyService extends Service {
             }
         }
     };
+    public void setSharedPreferences(Context ctx){
+        sharedPreferences = ctx.getSharedPreferences("ItemData",ctx.MODE_PRIVATE);
+    }
     private final Object resultLock = new Object();
 
     private List<ItemListener> listeners = new ArrayList<ItemListener>();
@@ -165,6 +174,8 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        String parse = sharedPreferences.getString("jsonData","{}");
+        items = new ArrayList<Item>();
         Log.i(TAG, "Service creating");
         timer = new Timer("ServiceTimer");
         timer.schedule(updateTask, 1000L, 5000L);
