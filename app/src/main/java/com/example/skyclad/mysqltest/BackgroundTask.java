@@ -1,13 +1,19 @@
 package com.example.skyclad.mysqltest;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,6 +33,8 @@ import java.net.URLEncoder;
  */
 
 public class BackgroundTask extends AsyncTask<String,Void,String> {
+    int userID;
+    String fname,lname,uname,pass,email;
     String jsonString;
     String jsonData;
     String method;
@@ -108,22 +116,42 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 bw.flush();
                 bw.close();
                 os.close();
-
                 InputStream is = httpURLConnection.getInputStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(is,"iso-8859-1"));
-                String response = "";
-                String line = "";
-                while ((line = br.readLine())!=null){
-                    response += line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                Log.d("login","IS instantiate");
+                //String line = "";
+                //while ((line = br.readLine())!=null){
+                //    response += line;
+                //}
+                StringBuilder sb = new StringBuilder();
+                String jsonString = "";
+                while((jsonString = br.readLine())!=null){
+                    sb.append(jsonString+"\n");
                 }
+                Log.d("login",sb.toString());
                 br.close();
                 is.close();
                 httpURLConnection.disconnect();
-                return response;
+                jsonString = sb.toString().trim();//.substring(sb.indexOf("{"));
+                JSONObject jsonObject = new JSONObject(jsonString);
+                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
+                JSONObject JO = jsonArray.getJSONObject(0);
+                this.userID = JO.getInt("userID");
+                this.fname = JO.getString("fname");
+                this.lname = JO.getString("lname");
+                this.uname = JO.getString("uname");
+                this.pass = JO.getString("pass");
+                this.email = JO.getString("email");
+                Log.d("login",this.userID+" "+this.fname+" "+this.lname+" "+this.uname+" "+this.pass+" "+this.email);
+                Log.d("login",jsonString);
+                return jsonString;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "{}";
             }
         }else if(method.equals("addItem")){
             String name = params[1];
@@ -175,6 +203,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 InputStream is = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
                 StringBuilder sb = new StringBuilder();
+                String jsonString = "";
                 while((jsonString = bufferedReader.readLine())!=null){
                     sb.append(jsonString+"\n");
                 }
@@ -201,11 +230,21 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         if (method.equals("register"))
             Toast.makeText(ctx,result, Toast.LENGTH_LONG).show();
         else if (method.equals("login")) {
-            if(result.equals("Login failed. Try again.")){
+            if(result.equals("{}")){
                 alertDialog.setMessage(result);
                 alertDialog.show();
             }else{
+                SharedPreferences sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("userID",userID);
+                editor.putString("fname",fname);
+                editor.putString("uname",lname);
+                editor.putString("uname",uname);
+                editor.putString("pass",pass);
+                editor.putString("email",email);
+                editor.commit();
                 ctx.startActivity(new Intent(ctx,ViewPagerActivity.class));
+                ((Activity)ctx).finish();
             }
         }else if (method.equals("getJson")){
             TextView tv = (TextView) rootView;
