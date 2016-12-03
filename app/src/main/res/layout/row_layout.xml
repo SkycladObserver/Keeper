@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="name"
-        android:id="@id/name"
+        android:id="@id/fname"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/icon"

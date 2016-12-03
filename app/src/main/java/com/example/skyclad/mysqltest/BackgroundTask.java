@@ -59,9 +59,11 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         String login_url = "http://skycladobserver.net23.net/login.php";
         method = params[0];
         if(method.equals("register")) {
-            String name = params[1];
-            String uname = params[2];
-            String pass = params[3];
+            String fname = params[1];
+            String lname = params[2];
+            String uname = params[3];
+            String pass = params[4];
+            String email = params[5];
             Log.d("Before try", "Before try");
             try {
                 URL url = new URL(reg_url);
@@ -70,9 +72,11 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 httpURLConnection.setDoOutput(true);
                 OutputStream OS = httpURLConnection.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
-                String data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&" +
-                        URLEncoder.encode("uname", "UTF-8") + "=" + URLEncoder.encode(uname, "UTF-8") + "&" +
-                        URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
+                String data = URLEncoder.encode("fname","UTF-8") + "=" +URLEncoder.encode(fname,"UTF-8") + "&" +
+                        URLEncoder.encode("lname","UTF-8") + "=" +URLEncoder.encode(lname,"UTF-8") + "&" +
+                        URLEncoder.encode("uname","UTF-8") + "=" +URLEncoder.encode(uname,"UTF-8") + "&" +
+                        URLEncoder.encode("pass","UTF-8") + "=" + URLEncoder.encode(pass,"UTF-8") + "&" +
+                        URLEncoder.encode("email","UTF-8") + "=" +URLEncoder.encode(email,"UTF-8");
                 bw.write(data);
                 bw.flush();
                 bw.close();

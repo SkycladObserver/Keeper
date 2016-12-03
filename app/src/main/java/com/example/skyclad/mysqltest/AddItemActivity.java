@@ -17,7 +17,7 @@ public class AddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        eName = (EditText) findViewById(R.id.name);
+        eName = (EditText) findViewById(R.id.fname);
         eDescription = (EditText) findViewById(R.id.description);
         eLocation = (EditText) findViewById(R.id.location);
         eTime = (EditText) findViewById(R.id.time);
