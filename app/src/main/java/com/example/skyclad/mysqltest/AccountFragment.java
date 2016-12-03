@@ -36,6 +36,7 @@ public class AccountFragment extends Fragment {
     @Nullable
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Log.d("viewPager","before inflate");
         //changed here
         return inflater.inflate(R.layout.fragment_account,container,false);
 

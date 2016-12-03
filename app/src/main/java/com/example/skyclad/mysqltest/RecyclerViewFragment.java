@@ -1,72 +1,74 @@
 package com.example.skyclad.mysqltest;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class RecyclerViewFragment extends Fragment {
 
-public class RecyclerViewActivity extends AppCompatActivity {
+    protected RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private RecyclerViewDataHelper recyclerViewDataHelper;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private static final String ARG_EXAMPLE = "recyclerViewFragment";
+    private String example_data;
+    public RecyclerViewFragment() {
+
+    }
+
+    public static RecyclerViewFragment newInstance(String argument) {
+        RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_EXAMPLE, argument);
+        recyclerViewFragment.setArguments(args);
+        return recyclerViewFragment;
+    }
+
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
-        recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
-        recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
-        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext());
-        DefaultItemAnimator animator = new DefaultItemAnimator();
-        animator.setAddDuration(1000);
-        animator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(animator);
+        example_data = getArguments().getString(ARG_EXAMPLE);
+        Log.i("Fragment created with ", example_data);
+    }
+
+
+    @Nullable
+    @Override public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView);
+        recyclerViewAdapter = new RecyclerViewAdapter(rootView.getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerViewFragment.RecyclerTouchListener(container.getContext(), recyclerView, new RecyclerViewFragment.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),"onClick "+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(container.getContext(),"onClick "+position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),"onLongClick "+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(container.getContext(),"onLongClick "+position, Toast.LENGTH_SHORT).show();
             }
         }));
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(RecyclerViewActivity.this,AddItemActivity.class);
-                intent.putExtra("type","Found");
-                startActivity(intent);
-            }
-        });
-    }
+        Log.d("viewPager","before inflate");
+        //changed here
+        return rootView;
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        recyclerViewAdapter.endService();
     }
-
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener){
+        private RecyclerViewFragment.ClickListener clickListener;
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final RecyclerViewFragment.ClickListener clickListener){
             Log.d("onTouchEventListener","constructor invoked");
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
@@ -91,7 +93,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
             View child = rv.findChildViewUnder(e.getX(),e.getY());
             if(child!=null&&clickListener!=null&&gestureDetector.onTouchEvent(e)){
-               clickListener.onClick(child,recyclerView.getChildAdapterPosition(child));
+                clickListener.onClick(child,recyclerView.getChildAdapterPosition(child));
             }
             Log.d("onTouchEventListener","on intercept event");
             return false;
@@ -107,7 +109,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
         }
     }
-    private static interface ClickListener{
+    public static interface ClickListener{
         public void onClick(View view, int position);
         public void onLongClick(View view, int position);
     }

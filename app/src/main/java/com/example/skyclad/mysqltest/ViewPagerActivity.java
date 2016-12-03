@@ -48,10 +48,8 @@ public class ViewPagerActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AccountFragment.newInstance("this data is for fragment 1"), "One");
-        adapter.addFragment(AccountFragment.newInstance("this data is for fragment 2"), "Two");
-        adapter.addFragment(AccountFragment.newInstance("this data is for fragment 3"), "Three");
-        //adapter.addFragment(TabFragmentTwo.newInstance("this data is for fragment 2"), "Two");
-        //adapter.addFragment(TabFragmentThree.newInstance("this data is for fragment 3"), "Three");
+        adapter.addFragment(RecyclerViewFragment.newInstance("this data is for fragment 2"), "lost");
+        adapter.addFragment(RecyclerViewFragment.newInstance("this data is for fragment 2"), "found");
         viewPager.setAdapter(adapter);
     }
 }
