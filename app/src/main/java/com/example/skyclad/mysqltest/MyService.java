@@ -23,6 +23,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -34,6 +35,8 @@ public class MyService extends Service {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String jsonString;
+    String previousTimestamp = "2016-11-07 09:12:08";
+    int prevID = 0;
     String jsonData;
     User user;
     Item item;
@@ -44,20 +47,20 @@ public class MyService extends Service {
         public void run() {
             Log.i(TAG, "Timer task doing work");
             try {
-                String timestamp = "2016-11-07 09:12:08";
-                //Timestamp timestamp = Timestamp.valueOf("2016-11-07 09:12:08");
+                //Log.d("timestamp","previousTimestamp: "+previousTimestamp);
+                Log.d("timestamp","prevID "+Integer.toString(prevID));
                 String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                /*httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 OutputStream os = httpURLConnection.getOutputStream();
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                String data = URLEncoder.encode("timestamp", "UTF-8") + "=" + URLEncoder.encode(timestamp, "UTF-8");
+                String data = URLEncoder.encode("prevID", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(prevID), "UTF-8");
                 bw.write(data);
                 bw.flush();
                 bw.close();
-                os.close();*/
+                os.close();
                 InputStream is = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
                 StringBuilder sb = new StringBuilder();
@@ -73,12 +76,14 @@ public class MyService extends Service {
                     editor.commit();
                 }
                 Log.d(TAG,jsonData);
+                parseJSON(jsonData,items,true);
+                /*
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                int itemID, type, claimed;
+                int itemID, type, claimed,userID;
                 String name, description, location, time, uploader, email;
                 Log.d("ListView","inside try");
-                items = new ArrayList<Item>();
+                //items = new ArrayList<Item>();
                 int count = 0;
                 while (count<jsonArray.length()){
                     Log.d("ListView","inside while");
@@ -92,14 +97,20 @@ public class MyService extends Service {
                     email = JO.getString("email");
                     type = JO.getInt("type");
                     claimed = JO.getInt("claimed");
+                    userID = JO.getInt("userID");
                     //timestamp = JO.get()
-
                     synchronized (resultLock) {
-                        items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed));
+                        items.add(0,item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
                         Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
                     }
+                    if(count==jsonArray.length()-1){
+                        prevID = itemID;
+                        Log.d("timestamp","ITEMID "+Integer.toString(prevID));
+                        Log.d("timestamp","currentID "+Integer.toString(prevID));
+                    }
                     count++;
-                }
+
+                }*/
                 synchronized (listeners) {
                     for (ItemListener listener : listeners) {
                         try {
@@ -109,6 +120,14 @@ public class MyService extends Service {
                         }
                     }
                 }
+                synchronized (listeners) {
+                    Calendar calendar = Calendar.getInstance();
+                    java.util.Date now = calendar.getTime();
+                    Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+                    previousTimestamp = currentTimestamp.toString();
+                    //Log.d("timestamp","currentTimestamp: "+previousTimestamp);
+                }
+
             }catch (Throwable t) { /* you should always ultimately catch
 									   all exceptions in timer tasks, or
 									   they will be sunk */
@@ -168,18 +187,11 @@ public class MyService extends Service {
             return null;
         }
     }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        sharedPreferences = getSharedPreferences("ItemData",MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        String parse = sharedPreferences.getString("jsonData","{server_response:[]}");
-        items = new ArrayList<Item>();
+    private void parseJSON(String parse,List<Item> items,boolean replacePrev){
         try {
             JSONObject jsonObject = new JSONObject(parse);
             JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-            int itemID, type, claimed;
+            int itemID, type, claimed,userID;
             String name, description, location, time, uploader, email;
             int count = 0;
             while (count<jsonArray.length()){
@@ -193,16 +205,31 @@ public class MyService extends Service {
                 email = JO.getString("email");
                 type = JO.getInt("type");
                 claimed = JO.getInt("claimed");
+                userID = JO.getInt("userID");
                 //timestamp = JO.get()
                 synchronized (resultLock) {
-                    items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed));
+                    items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
                     Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
                 }
                 count++;
+                if(count==jsonArray.length()&&replacePrev){
+                    prevID = itemID;
+                    Log.d("timestamp","ITEMID "+Integer.toString(prevID));
+                    Log.d("timestamp","currentID "+Integer.toString(prevID));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sharedPreferences = getSharedPreferences("ItemData",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String parse = sharedPreferences.getString("jsonData","{server_response:[]}");
+        items = new ArrayList<Item>();
+        parseJSON(parse,items,false);
         Log.i(TAG, "Service creating");
         timer = new Timer("ServiceTimer");
         timer.schedule(updateTask, 1000L, 5000L);
