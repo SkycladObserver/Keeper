@@ -208,7 +208,7 @@ public class MyService extends Service {
                 userID = JO.getInt("userID");
                 //timestamp = JO.get()
                 synchronized (resultLock) {
-                    items.add(item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
+                    items.add(0,item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
                     Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
                 }
                 count++;
