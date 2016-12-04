@@ -103,13 +103,6 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
                 Intent intent = new Intent(getActivity(),ItemInformationActivity.class);
                 Item i = recyclerViewAdapter.getItem(position);
                 String type = i.getType()==0 ? "Lost" : "Found";
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(view.getContext());
-                builder.setSmallIcon(R.drawable.ic_sheep_silhouette);
-                builder.setContentTitle("Similar "+type+" Item!");
-                builder.setContentText("View item here.");
-                Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                builder.setSound(alarmSound);
-                builder.setVibrate(new long[] { 1000, 1000});
 
                 intent.putExtra("type",type);
                 intent.putExtra("title",i.getName());
@@ -119,13 +112,14 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
                 intent.putExtra("email",i.getEmail());
                 intent.putExtra("uploader",i.getUploader());
                 //start
+                /*
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
                 stackBuilder.addParentStack(ItemInformationActivity.class);
                 stackBuilder.addNextIntent(intent);
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
                 builder.setContentIntent(pendingIntent);
                 NotificationManager NM = (NotificationManager) view.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                NM.notify(0,builder.build());
+                NM.notify(0,builder.build());*/
                 //end
                 startActivity(intent);
             }

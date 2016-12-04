@@ -1,11 +1,17 @@
 package com.example.skyclad.mysqltest;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -37,9 +43,11 @@ public class MyService extends Service {
     String jsonString;
     String previousTimestamp = "2016-11-07 09:12:08";
     int prevID = 0;
+    int userIDSharedPrefs = 0;
     String jsonData;
     User user;
     Item item;
+    List<Item> userItems =  Collections.emptyList();
     List<Item> items =  Collections.emptyList();
     List<User> users =  Collections.emptyList();
     private TimerTask updateTask = new TimerTask() {
@@ -194,6 +202,7 @@ public class MyService extends Service {
             int itemID, type, claimed,userID;
             String name, description, location, time, uploader, email;
             int count = 0;
+
             while (count<jsonArray.length()){
                 JSONObject JO = jsonArray.getJSONObject(count);
                 itemID = JO.getInt("itemID");
@@ -210,6 +219,40 @@ public class MyService extends Service {
                 synchronized (resultLock) {
                     items.add(0,item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
                     Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
+                    if(item.getUserID()==userIDSharedPrefs){
+                        userItems.add(item);
+                        Log.d("userItems","added");
+                        Log.d("userItems",item.getItemID()+" "+item.getName()+" "+item.getDescription()+" "+item.getUserID());
+                    }else{
+                        String tags[] = item.getName().split(" ");
+                        outerloop:
+                        for(Item userItem : userItems){
+                            if(userItem.getType()!=item.getType()) {
+                                for (String s : tags) {
+                                    if (s.contains(userItem.getName())||userItem.getName().contains(s)) {
+                                        Intent intent = new Intent(this, ViewPagerActivity.class);
+                                        String notifType = type == 0 ? "Lost" : "Found";
+                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                                        builder.setSmallIcon(R.drawable.ic_sheep_silhouette);
+                                        builder.setContentTitle("Similar " + notifType + " Item!");
+                                        builder.setContentText("View item here.");
+                                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                        builder.setSound(alarmSound);
+                                        builder.setVibrate(new long[]{1000, 1000});
+
+                                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                                        stackBuilder.addParentStack(ViewPagerActivity.class);
+                                        stackBuilder.addNextIntent(intent);
+                                        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                                        builder.setContentIntent(pendingIntent);
+                                        NotificationManager NM = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+                                        NM.notify(0, builder.build());
+                                        break outerloop;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 count++;
                 if(count==jsonArray.length()&&replacePrev){
@@ -221,6 +264,17 @@ public class MyService extends Service {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        /*
+        Log.d("userItems","in on create");
+
+        Log.d("userItems",Integer.toString(userID));
+        for(int i = 0; i < items.size();i++){
+            Item item = items.get(i);
+            if(item.getUserID()==userID){
+                userItems.add(item);
+                Log.d("userItems",item.getItemID()+" "+item.getName()+" "+item.getDescription()+" "+item.getUserID());
+            }
+        }*/
     }
     @Override
     public void onCreate() {
@@ -228,8 +282,13 @@ public class MyService extends Service {
         sharedPreferences = getSharedPreferences("ItemData",MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String parse = sharedPreferences.getString("jsonData","{server_response:[]}");
+
+        sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        userIDSharedPrefs = sharedPreferences.getInt("userID",0);
         items = new ArrayList<Item>();
         parseJSON(parse,items,false);
+        userItems = new ArrayList<Item>();
         Log.i(TAG, "Service creating");
         timer = new Timer("ServiceTimer");
         timer.schedule(updateTask, 1000L, 5000L);
