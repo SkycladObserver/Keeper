@@ -48,7 +48,7 @@ public class UserAdapter extends ArrayAdapter{
             LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = layoutInflater.inflate(R.layout.row_layout,parent,false);
             userHolder = new UserHolder();
-            userHolder.name = (TextView) row.findViewById(R.id.name);
+            userHolder.name = (TextView) row.findViewById(R.id.fname);
             userHolder.uname = (TextView) row.findViewById(R.id.uname);
             userHolder.pass = (TextView) row.findViewById(R.id.pass);
             row.setTag(userHolder);

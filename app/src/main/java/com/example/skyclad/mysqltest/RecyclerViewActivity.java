@@ -1,8 +1,11 @@
 package com.example.skyclad.mysqltest;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +26,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
-        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),getData());
+        recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),"");
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(1000);
+        animator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(animator);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
@@ -37,19 +44,22 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"onLongClick "+position, Toast.LENGTH_SHORT).show();
             }
         }));
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(RecyclerViewActivity.this,AddItemActivity.class);
+                intent.putExtra("type","Found");
+                startActivity(intent);
+            }
+        });
     }
-    private List<User> getData(){
-        Log.d("RecyclerView","before list instantiation");
-        List<User> users = new ArrayList<User>();
-        Log.d("RecyclerView","before dummyData array");
-        String dummyData[] = {"brent","dank","memes","daryl","lol","dfq","HAHAHAHA"};
-        for(int i = 0; i <= 100; i++) {
-            Log.d("RecyclerView", "inside for loop");
-            users.add(new User(dummyData[i%4],dummyData[i%4],dummyData[i%4]));
-            Log.d("RecyclerView",users.get(i).getName()+" "+users.get(i).getUName()+users.get(i).getPass());
-        }
-        return users;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        recyclerViewAdapter.endService();
     }
+
     class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
 
         private GestureDetector gestureDetector;
@@ -95,7 +105,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
         }
     }
-    public static interface ClickListener{
+    private static interface ClickListener{
         public void onClick(View view, int position);
         public void onLongClick(View view, int position);
     }

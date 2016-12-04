@@ -3,23 +3,33 @@ package com.example.skyclad.mysqltest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     EditText etName, etPass;
+    public static final String DEFAULT = "N/A";
     //i made some memes in AddItem
     TextView status;
     String name, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
+        String uname = sharedPreferences.getString("uname",DEFAULT);
+        Log.d("login",uname);
+        if(!uname.equals(DEFAULT)){
+            startActivity(new Intent(this,ViewPagerActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_main);
         etName = (EditText) findViewById(R.id.uname);
         etPass = (EditText) findViewById(R.id.pass);
@@ -44,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void butData(View view) {startActivity(new Intent(this,Json.class));}
     public void butList(View view) {startActivity(new Intent(this,RecyclerViewActivity.class));}
+    public void butViewPager(View view) {startActivity(new Intent(this,ViewPagerActivity.class));}
     public void butLogin(View view){
         name = etName.getText().toString();
         pass = etPass.getText().toString();

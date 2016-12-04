@@ -14,12 +14,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="First Name"
         android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
-        android:id="@+id/name" />
+        android:id="@+id/fname" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="butReg"
+        android:id="@+id/butReg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="79dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Last Name"
+        android:ems="10"
+        android:layout_marginTop="11dp"
+        android:id="@+id/lname"
+        android:layout_below="@+id/fname"
+        android:layout_alignLeft="@+id/fname"
+        android:layout_alignStart="@+id/fname" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -27,30 +49,34 @@
         android:inputType="textPersonName"
         android:text="Username"
         android:ems="10"
-        android:layout_below="@+id/name"
-        android:layout_alignLeft="@+id/name"
-        android:layout_alignStart="@+id/name"
-        android:layout_marginTop="42dp"
-        android:id="@+id/uname" />
+        android:layout_marginTop="14dp"
+        android:id="@+id/uname"
+        android:contentDescription="Password"
+        android:layout_below="@+id/lname"
+        android:layout_alignLeft="@+id/lname"
+        android:layout_alignStart="@+id/lname" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
+        android:id="@+id/pass"
+        android:contentDescription="Password"
         android:layout_below="@+id/uname"
-        android:layout_alignRight="@+id/uname"
-        android:layout_alignEnd="@+id/uname"
-        android:layout_marginTop="48dp"
-        android:id="@+id/pass" />
+        android:layout_alignLeft="@+id/uname"
+        android:layout_alignStart="@+id/uname"
+        android:layout_marginTop="15dp" />
 
-    <Button
-        android:text="Register"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:text="Email"
+        android:ems="10"
         android:layout_below="@+id/pass"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:onClick="butReg"
-        android:id="@+id/butReg" />
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass"
+        android:layout_marginTop="18dp"
+        android:id="@+id/email" />
 </RelativeLayout>
