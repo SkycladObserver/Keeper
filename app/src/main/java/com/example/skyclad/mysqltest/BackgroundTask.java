@@ -48,7 +48,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
     }
     public BackgroundTask(Context ctx,View rootView){
-        super();
+        this.ctx = ctx;
         this.rootView = rootView;
     }
 
@@ -226,28 +226,34 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (method.equals("register"))
-            Toast.makeText(ctx,result, Toast.LENGTH_LONG).show();
-        else if (method.equals("login")) {
-            if(result.equals("{}")){
-                alertDialog.setMessage("Login Failed. Please try again.");
-                alertDialog.show();
-            }else{
-                SharedPreferences sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("userID",userID);
-                editor.putString("fname",fname);
-                editor.putString("uname",lname);
-                editor.putString("uname",uname);
-                editor.putString("pass",pass);
-                editor.putString("email",email);
-                editor.commit();
-                ctx.startActivity(new Intent(ctx,ViewPagerActivity.class));
-                ((Activity)ctx).finish();
+        if(result!=null){
+            if (method.equals("register"))
+                Toast.makeText(ctx,result, Toast.LENGTH_LONG).show();
+            else if (method.equals("login")) {
+                if(result.equals("{}")){
+                    alertDialog.setMessage("Login Failed. Please try again.");
+                    alertDialog.show();
+                }else{
+                    SharedPreferences sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("userID",userID);
+                    editor.putString("fname",fname);
+                    editor.putString("uname",lname);
+                    editor.putString("uname",uname);
+                    editor.putString("pass",pass);
+                    editor.putString("email",email);
+                    editor.commit();
+                    ctx.startActivity(new Intent(ctx,ViewPagerActivity.class));
+                    ((Activity)ctx).finish();
+                }
+            }else if (method.equals("getJson")){
+                TextView tv = (TextView) rootView;
+                tv.setText(result);
             }
-        }else if (method.equals("getJson")){
-            TextView tv = (TextView) rootView;
-            tv.setText(result);
+        }else{
+            alertDialog.setMessage("Connectivity problems. Please try again when you have internet.");
+            alertDialog.show();
         }
+
     }
 }

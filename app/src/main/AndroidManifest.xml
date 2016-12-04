@@ -12,8 +12,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Search"
+        android:icon="@mipmap/ic_keeper"
+        android:label="Keeper"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -47,7 +47,8 @@
         </receiver>
 
         <activity android:name=".RecyclerViewActivity" />
-        <activity android:name=".ViewPagerActivity"></activity>
+        <activity android:name=".ViewPagerActivity" />
+        <activity android:name=".ItemInformationActivity"></activity>
     </application>
 
 </manifest>

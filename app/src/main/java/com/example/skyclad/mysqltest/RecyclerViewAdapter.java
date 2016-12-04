@@ -174,4 +174,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         items.addAll(newList);
         notifyDataSetChanged();
     }
+    public Item getItem(int position){
+        return items.get(position);
+    }
 }

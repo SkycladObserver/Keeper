@@ -21,13 +21,11 @@ import java.util.List;
 public class RecyclerViewActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private RecyclerViewDataHelper recyclerViewDataHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
         recyclerView =(RecyclerView) findViewById(R.id.recyclerView);
-        recyclerViewDataHelper = new RecyclerViewDataHelper(getApplicationContext());
         recyclerViewAdapter = new RecyclerViewAdapter(getApplicationContext(),"");
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(1000);

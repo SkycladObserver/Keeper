@@ -83,6 +83,7 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
     @Override public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle("Search...");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerViewAdapter = new RecyclerViewAdapter(rootView.getContext(),data);
@@ -91,7 +92,20 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
         recyclerView.addOnItemTouchListener(new RecyclerViewFragment.RecyclerTouchListener(container.getContext(), recyclerView, new RecyclerViewFragment.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(container.getContext(),data+" onClick "+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(container.getContext(),data+" onClick "+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),ItemInformationActivity.class);
+                Item i = recyclerViewAdapter.getItem(position);
+                Log.d("getExtra",i.getType()+" "+i.getName()+" "+i.getDescription()+" "+i.getLocation()+" "+i.getTime()+" "+
+                        i.getName()+" "+i.getEmail()+" "+i.getUploader());
+                String type = i.getType()==0 ? "Lost" : "Found";
+                intent.putExtra("type",type);
+                intent.putExtra("title",i.getName());
+                intent.putExtra("description",i.getDescription());
+                intent.putExtra("location",i.getLocation());
+                intent.putExtra("time",i.getTime());
+                intent.putExtra("email",i.getEmail());
+                intent.putExtra("uploader",i.getUploader());
+                startActivity(intent);
             }
 
             @Override
