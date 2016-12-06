@@ -53,38 +53,43 @@ public class MyService extends Service {
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
-            Log.i(TAG, "Timer task doing work");
-            try {
-                //Log.d("timestamp","previousTimestamp: "+previousTimestamp);
-                Log.d("timestamp","prevID "+Integer.toString(prevID));
-                String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
-                URL url = new URL(json_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                OutputStream os = httpURLConnection.getOutputStream();
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                String data = URLEncoder.encode("prevID", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(prevID), "UTF-8");
-                bw.write(data);
-                bw.flush();
-                bw.close();
-                os.close();
-                InputStream is = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-                StringBuilder sb = new StringBuilder();
-                while((jsonString = bufferedReader.readLine())!=null){
-                    sb.append(jsonString+"\n");
-                }
-                bufferedReader.close();
-                is.close();
-                httpURLConnection.disconnect();
-                synchronized (resultLock){
-                    jsonData=sb.toString().trim();
-                    editor.putString("jsonData",jsonData);
-                    editor.commit();
-                }
-                Log.d(TAG,jsonData);
-                parseJSON(jsonData,items,true);
+            requestFromServer();
+        }
+    };
+
+    public void requestFromServer(){
+        Log.i(TAG, "Timer task doing work");
+        try {
+            //Log.d("timestamp","previousTimestamp: "+previousTimestamp);
+            Log.d("timestamp","prevID "+Integer.toString(prevID));
+            String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
+            URL url = new URL(json_url);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            OutputStream os = httpURLConnection.getOutputStream();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            String data = URLEncoder.encode("prevID", "UTF-8") + "=" + URLEncoder.encode(Integer.toString(prevID), "UTF-8");
+            bw.write(data);
+            bw.flush();
+            bw.close();
+            os.close();
+            InputStream is = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            while((jsonString = bufferedReader.readLine())!=null){
+                sb.append(jsonString+"\n");
+            }
+            bufferedReader.close();
+            is.close();
+            httpURLConnection.disconnect();
+            synchronized (resultLock){
+                jsonData=sb.toString().trim();
+                editor.putString("jsonData",jsonData);
+                editor.commit();
+            }
+            Log.d(TAG,jsonData);
+            parseJSON(jsonData,items,true);
                 /*
                 JSONObject jsonObject = new JSONObject(jsonData);
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
@@ -119,31 +124,30 @@ public class MyService extends Service {
                     count++;
 
                 }*/
-                synchronized (listeners) {
-                    for (ItemListener listener : listeners) {
-                        try {
-                            listener.handleListUpdated();
-                        } catch (RemoteException e) {
-                            Log.w(TAG, "Failed to notify listener " + listener, e);
-                        }
+            synchronized (listeners) {
+                for (ItemListener listener : listeners) {
+                    try {
+                        listener.handleListUpdated();
+                    } catch (RemoteException e) {
+                        Log.w(TAG, "Failed to notify listener " + listener, e);
                     }
                 }
-                synchronized (listeners) {
-                    Calendar calendar = Calendar.getInstance();
-                    java.util.Date now = calendar.getTime();
-                    Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-                    previousTimestamp = currentTimestamp.toString();
-                    //Log.d("timestamp","currentTimestamp: "+previousTimestamp);
-                }
+            }
+            synchronized (listeners) {
+                Calendar calendar = Calendar.getInstance();
+                java.util.Date now = calendar.getTime();
+                Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+                previousTimestamp = currentTimestamp.toString();
+                //Log.d("timestamp","currentTimestamp: "+previousTimestamp);
+            }
 
-            }catch (Throwable t) { /* you should always ultimately catch
+        }catch (Throwable t) { /* you should always ultimately catch
 									   all exceptions in timer tasks, or
 									   they will be sunk */
-                t.printStackTrace();
-                Log.e(TAG, "Failed", t);
-            }
+            t.printStackTrace();
+            Log.e(TAG, "Failed", t);
         }
-    };
+    }
     private final Object resultLock = new Object();
 
     private List<ItemListener> listeners = new ArrayList<ItemListener>();

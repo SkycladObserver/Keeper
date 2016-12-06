@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +89,7 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
     @Nullable
     @Override public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+                toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         toolbar.setTitle("Search...");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView);

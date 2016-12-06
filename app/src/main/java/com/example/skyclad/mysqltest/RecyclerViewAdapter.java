@@ -92,6 +92,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Log.d("Service Thread", "Service connection closed");
         }
     };
+
+    public void requestRetrieve(){
+    }
     public void resetData(){
         items = new ArrayList<Item>();
         items.addAll(itemHolder);
