@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         etName = (EditText) findViewById(R.id.uname);
         etPass = (EditText) findViewById(R.id.pass);
-        status = (TextView) findViewById(R.id.status);
+        //status = (TextView) findViewById(R.id.status);
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         Log.d("Error","connectivity manager");
         NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error","inside not null");
             if (networkInfo.isConnectedOrConnecting()) {
                 Log.d("Error", "inside connected or connecting");
-                status.setText("Network Found!");
+               // status.setText("Network Found!");
             }
         }else
-            status.setText("Network not found.");
+            //status.setText("Network not found.");
         Log.d("Error","after if statement");
     }
     public void startService(View view){ startActivity(new Intent(this, ServiceActivity.class)); }

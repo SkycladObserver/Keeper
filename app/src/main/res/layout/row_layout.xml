@@ -9,6 +9,68 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@mipmap/ic_found_baer"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/icon"
+        android:id="@+id/fname"
+        android:layout_toRightOf="@+id/icon"
+        android:text="textView3" />
+
+    <TextView
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="description"
+        android:gravity="center"
+        android:id="@+id/description"
+        android:layout_alignBottom="@+id/icon"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon"
+        android:maxEms="27"
+        android:color="@color/colorSecondaryText"/>
+
+    <TextView
+        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="time"
+        android:gravity="center"
+        android:id="@+id/time"
+        android:layout_below="@+id/icon"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/icon"
+        android:color="@color/colorSecondaryText" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        android:layout_alignBottom="@+id/time" />
+
+
+</RelativeLayout>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id = "@+id/row_layout"
+    android:background="@drawable/custom_bg"
+    android:clickable="true">
+    <ImageView
+        android:padding="8dp"
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
@@ -48,4 +110,4 @@
         android:layout_toEndOf="@+id/icon" />
 
 
-</RelativeLayout>
+</RelativeLayout>-->

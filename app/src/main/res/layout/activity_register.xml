@@ -8,75 +8,76 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.skyclad.mysqltest.Register">
+    tools:context="com.example.skyclad.mysqltest.Register"
+    android:background="@drawable/logo">
 
     <EditText
+        android:id="@+id/fname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="First Name"
-        android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
-        android:id="@+id/fname" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="First Name" />
 
     <Button
-        android:text="Register"
+        android:id="@+id/butReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="butReg"
-        android:id="@+id/butReg"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp" />
+        android:layout_marginBottom="79dp"
+        android:onClick="butReg"
+        android:text="Register" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Last Name"
-        android:ems="10"
-        android:layout_marginTop="11dp"
         android:id="@+id/lname"
-        android:layout_below="@+id/fname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/fname"
-        android:layout_alignStart="@+id/fname" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/fname"
+        android:layout_below="@+id/fname"
+        android:layout_marginTop="11dp"
+        android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username"
-        android:ems="10"
-        android:layout_marginTop="14dp"
-        android:id="@+id/uname"
-        android:contentDescription="Password"
-        android:layout_below="@+id/lname"
-        android:layout_alignLeft="@+id/lname"
-        android:layout_alignStart="@+id/lname" />
+        android:text="Last Name" />
 
     <EditText
+        android:id="@+id/uname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/pass"
+        android:layout_alignLeft="@+id/lname"
+        android:layout_alignStart="@+id/lname"
+        android:layout_below="@+id/lname"
+        android:layout_marginTop="14dp"
         android:contentDescription="Password"
-        android:layout_below="@+id/uname"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Username" />
+
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/uname"
         android:layout_alignStart="@+id/uname"
-        android:layout_marginTop="15dp" />
+        android:layout_below="@+id/uname"
+        android:layout_marginTop="15dp"
+        android:contentDescription="Password"
+        android:ems="10"
+        android:inputType="textPassword" />
 
     <EditText
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:text="Email"
-        android:ems="10"
-        android:layout_below="@+id/pass"
         android:layout_alignLeft="@+id/pass"
         android:layout_alignStart="@+id/pass"
+        android:layout_below="@+id/pass"
         android:layout_marginTop="18dp"
-        android:id="@+id/email" />
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Email" />
 </RelativeLayout>

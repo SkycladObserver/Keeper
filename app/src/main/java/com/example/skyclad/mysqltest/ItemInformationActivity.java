@@ -13,7 +13,7 @@ public class ItemInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_information);
         textViews = new TextView[7];
-        int id[] = {R.id.type, R.id.title, R.id.description, R.id.location, R.id.time, R.id.femail, R.id.funame};
+        int id[] = {R.id.type, R.id.title, R.id.description, R.id.location, R.id.time, R.id.femail, R.id.uname};
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String getExtras[] = {extras.getString("type"),
