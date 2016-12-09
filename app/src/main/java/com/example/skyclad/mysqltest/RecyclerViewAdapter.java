@@ -1,3 +1,30 @@
+
+/**
+ * Module name: RecyclerViewFragment
+ * Description: This module handles the data to be displayed in the recyclerView for the recyclerView fragment.
+ *          A recyclerView is an efficient list in android.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: November 15, 2016
+ * Module Parameters:
+ *      Context - context of which activity/view this is happening.
+ *      Data - Distinguishes whether the recyclerView is for lost or found.
+ * Variable names:
+ *      private boolean changeDataSet; - checks if it will change the dataset or not. This is used for search where while searching,
+ *                              the data set should not refresh. It should only refresh after the search is done.
+ *      String data; - Distinguishes whether the recyclerView is for lost or found.
+ *      ArrayList<Item> items = new ArrayList<Item>(); - list of items that will be displayed.
+ *      ArrayList<Item> itemHolder = new ArrayList<Item>(); - list of all the items. It gets constrained depending on search and type (lost/found)
+ *      private LayoutInflater inflater - layoutInflater, as the name implies.
+ *      Context context; - context of the class.
+ *      Handler handler; - handles multithreading in updating the data coming from the server.
+ *      AidlApi api; Access to the Android Interface Definition Language API for Interprocess Communication.
+ * Files accessed: AidlApi.aidl, MyService.java, ItemListener.Aidl, Item.Aidl
+ * Files updated: none
+ * Module Input: Data from the server. Type (lost/found).
+ * Module Output: Information to be presented in RecyclerViewFragment.
+ * Error handling capabilities: none
+ */
+
 package com.example.skyclad.mysqltest;
 
 import android.content.ComponentName;
@@ -17,10 +44,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by acer on 11/1/2016.
- */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     //List<User> users = Collections.emptyList();
@@ -51,10 +74,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void canChangeDataSet(boolean bool){
         changeDataSet = bool;
-    }
-    public void delete(int position){
-        items.remove(position);
-        notifyItemRemoved(position);
     }
 
     @Override
@@ -93,8 +112,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     };
 
-    public void requestRetrieve(){
-    }
     public void resetData(){
         items = new ArrayList<Item>();
         items.addAll(itemHolder);
@@ -138,12 +155,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         notifyDataSetChanged();
                     Log.d("search",Boolean.toString(changeDataSet));
                     Log.d("ServiceThread","after notify getItemCount: "+getItemCount());
-                   // if(users.size()>getItemCount()){
-                    //    notifyItemInserted(0);
-                   // }
-                    //else if(users.size()<getItemCount()){
-                    //    notifyItemRemoved(0);
-                    //}
                 } catch (Throwable t) {
                     Log.e("ServiceThread", "Error while updating the UI", t);
                 }

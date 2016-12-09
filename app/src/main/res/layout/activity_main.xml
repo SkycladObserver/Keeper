@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,98 +9,175 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.skyclad.mysqltest.MainActivity">
-
-    <Button
-        android:text="Data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/butReg"
-        android:layout_alignRight="@+id/butReg"
-        android:layout_alignEnd="@+id/butReg"
-        android:layout_marginTop="27dp"
-        android:onClick="butData"
-        android:id="@+id/butData" />
-
-    <TextView
-        android:text="Network not found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/status"
-        android:layout_below="@+id/butData"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginTop="103dp"
-        android:id="@+id/pass"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/uname"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:onClick="butReg"
-        android:id="@+id/butReg"
-        android:layout_below="@+id/butLogin"
-        android:layout_alignRight="@+id/pass"
-        android:layout_alignEnd="@+id/pass" />
-
-    <Button
-        android:text="Service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:layout_alignBaseline="@+id/butReg"
-        android:layout_alignBottom="@+id/butReg"
-        android:layout_toLeftOf="@+id/status"
-        android:layout_toStartOf="@+id/status"
-        android:onClick="startService"/>
-
-    <Button
-        android:text="List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/status"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3"
-        android:id="@+id/button4"
-        android:onClick="butList"/>
+    tools:context="com.example.skyclad.mysqltest.MainActivity"
+    android:background="@drawable/logo">
 
     <Button
         android:text="Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_width="88dp"
+        android:layout_height="45dp"
         android:id="@+id/butLogin"
         android:onClick="butLogin"
-        android:layout_below="@+id/pass"
-        android:layout_alignLeft="@+id/butReg"
-        android:layout_alignStart="@+id/butReg" />
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@+id/butReg"
+        android:layout_alignBottom="@+id/butReg"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass" />
+
+    <EditText
+        android:textSize="15sp"
+        android:layout_width="240dp"
+        android:layout_height="29dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/pass"
+        android:ellipsize="start"
+        android:gravity="center_horizontal"
+        android:hint="password"
+        android:textColorHint="@color/white"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:layout_marginBottom="25dp"
+        android:layout_above="@+id/butLogin"
+        android:layout_alignLeft="@+id/uname"
+        android:layout_alignStart="@+id/uname" />
 
     <Button
-        android:text="viewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button5"
-        android:layout_alignBaseline="@+id/butLogin"
-        android:layout_alignBottom="@+id/butLogin"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3"
-        android:onClick="butViewPager" />
+        android:text="Register"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:onClick="butReg"
+        android:id="@+id/butReg"
+        android:background="@android:drawable/dialog_holo_dark_frame"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="113dp"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/pass"
+        android:layout_alignEnd="@+id/pass" />
+
+
+    <EditText
+        android:textSize="15sp"
+        android:layout_width="240dp"
+        android:layout_height="29dp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/uname"
+        android:hint="username"
+        android:ellipsize="start"
+        android:gravity="center_horizontal"
+        android:textColorHint="@color/white"
+        android:textColor="@android:color/white"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        app:backgroundTint="@android:color/transparent"
+        android:layout_above="@+id/pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp" />
 </RelativeLayout>
+    <!--<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.skyclad.mysqltest.MainActivity">
+
+        <Button
+            android:text="Data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/butReg"
+            android:layout_alignRight="@+id/butReg"
+            android:layout_alignEnd="@+id/butReg"
+            android:layout_marginTop="27dp"
+            android:onClick="butData"
+            android:id="@+id/butData" />
+
+        <TextView
+            android:text="Network not found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status"
+            android:layout_below="@+id/butData"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:layout_marginTop="103dp"
+            android:id="@+id/pass"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/uname"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:onClick="butReg"
+            android:id="@+id/butReg"
+            android:layout_below="@+id/butLogin"
+            android:layout_alignRight="@+id/pass"
+            android:layout_alignEnd="@+id/pass" />
+
+        <Button
+            android:text="Service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_alignBaseline="@+id/butReg"
+            android:layout_alignBottom="@+id/butReg"
+            android:layout_toLeftOf="@+id/status"
+            android:layout_toStartOf="@+id/status"
+            android:onClick="startService"/>
+
+        <Button
+            android:text="List"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/status"
+            android:layout_alignLeft="@+id/button3"
+            android:layout_alignStart="@+id/button3"
+            android:id="@+id/button4"
+            android:onClick="butList"/>
+
+        <Button
+            android:text="Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:id="@+id/butLogin"
+            android:onClick="butLogin"
+            android:layout_below="@+id/pass"
+            android:layout_alignLeft="@+id/butReg"
+            android:layout_alignStart="@+id/butReg" />
+
+        <Button
+            android:text="viewPager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button5"
+            android:layout_alignBaseline="@+id/butLogin"
+            android:layout_alignBottom="@+id/butLogin"
+            android:layout_alignLeft="@+id/button3"
+            android:layout_alignStart="@+id/button3"
+            android:onClick="butViewPager" />
+    </RelativeLayout>-->

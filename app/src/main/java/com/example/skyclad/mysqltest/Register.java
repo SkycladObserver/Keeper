@@ -1,3 +1,19 @@
+/**
+ * Module name: Register
+ * Description: This module handles the register interface.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: December 4, 2016
+ * Module Parameters: none.
+ * Variable names:
+ *      EditText ET_FNAME,ET_LNAME,ET_UNAME,ET_PASS,ET_EMAIL; - EditTexts
+ *      String fname, lname, uname, pass,email; - data from the EditTexts that will be pushed to the server
+ * Files accessed: activity_item_information.xml, BackgroundTask.java
+ * Files updated: none
+ * Module Input: Data from user through EditText
+ * Module Output: Account Creation.
+ * Error handling capabilities: none.
+ */
+
 package com.example.skyclad.mysqltest;
 
 import android.support.v7.app.AppCompatActivity;

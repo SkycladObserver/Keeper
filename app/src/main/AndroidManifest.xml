@@ -25,11 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Register" />
-        <activity android:name=".Json" />
-        <activity android:name=".DisplayListView" />
-        <activity android:name=".PostLoginActivity" />
         <activity android:name=".AddItemActivity" />
-        <activity android:name=".ServiceActivity" />
 
         <service
             android:name=".MyService"
@@ -41,13 +37,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".ViewPagerActivity" />
         <activity android:name=".ItemInformationActivity"></activity>
     </application>

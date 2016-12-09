@@ -142,7 +142,7 @@
         android:textColor="@color/colorSecondaryText" />
 
     <TextView
-        android:id="@+id/funame"
+        android:id="@+id/uname"
         android:layout_width="200dp"
         android:layout_height="25dp"
         android:layout_alignParentLeft="true"

@@ -1,3 +1,23 @@
+/**
+ * Module name: RecyclerViewFragment
+ * Description: This module handles the view for recyclerView fragment. A recyclerView is an efficient list in android.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: December 4, 2016
+ * Module Parameters: None.
+ * Variable names:
+ * private Toolbar toolbar - This is for the search bar.
+ * private RecyclerView recyclerView - the list
+ * private RecyclerViewAdapter recyclerViewAdapter - the adapter that handles the information to be placed in each list item.
+ * private static final String ARG = "recyclerViewFragment" - the key in order to retrieve the argument. This is used to distinguish
+ *                                  if the instantiated class is of lost or found.
+ * private String data - data is the value accessed through ARG.
+ * Files accessed: RecyclerViewAdapter.java, fragment_recycler_view.xml
+ * Files updated:
+ * Module Input: instantiated in ViewPagerActivity
+ * Module Output: a set up recyclerView fragment ready for use for the View Pager.
+ * Error handling capabilities: none
+ */
+
 package com.example.skyclad.mysqltest;
 
 import android.app.Notification;
@@ -40,7 +60,6 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
     private RecyclerViewAdapter recyclerViewAdapter;
     private static final String ARG = "recyclerViewFragment";
     private String data;
-    private View rootView;
     public RecyclerViewFragment() {
 
     }
@@ -88,8 +107,8 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
 
     @Nullable
     @Override public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-                toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        View rootView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         toolbar.setTitle("Search...");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -112,16 +131,6 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
                 intent.putExtra("time",i.getTime());
                 intent.putExtra("email",i.getEmail());
                 intent.putExtra("uploader",i.getUploader());
-                //start
-                /*
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-                stackBuilder.addParentStack(ItemInformationActivity.class);
-                stackBuilder.addNextIntent(intent);
-                PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-                builder.setContentIntent(pendingIntent);
-                NotificationManager NM = (NotificationManager) view.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                NM.notify(0,builder.build());*/
-                //end
                 startActivity(intent);
             }
 

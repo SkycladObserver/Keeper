@@ -1,3 +1,20 @@
+/**
+ * Module name: AddItemActivity
+ * Description: This module handles the activity that is shown when a user wants to post an item.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: November 2, 2016
+ * Module Parameters: None.
+ * Variable names:
+ * EditText eName,eDescription,eLocation,eTime - EditTexts
+ * String name,description,location,time,type - the details that will be extracted from the EditTexts
+ * TextView tvTime - changes depending if the person is posting a lost or found item.
+ * Button butAddItem - button that runs the method to add the item into the server.
+ * Files accessed: fragment_account.xml, BackgroundTask.java
+ * Files updated:
+ * Module Input: Opened through the Floating Action Button in the RecyclerView Fragments.
+ * Module Output: Data to be passed to BackgroundTask.java, which in turn sends it to the server.
+ * Error handling capabilities: none
+ */
 package com.example.skyclad.mysqltest;
 
 import android.support.v7.app.AppCompatActivity;

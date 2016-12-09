@@ -1,10 +1,24 @@
+/**
+ * Module name: AccountFragment
+ * Description: This module handles the view for account fragment.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: December 4, 2016
+ * Module Parameters: None.
+ * Variable names:
+ *  btn - this is for logout.
+ *  data - argument for Account. This is for later use.
+ * Files accessed: fragment_account.xml
+ * Files updated:
+ * Module Input: instantiated in ViewPagerActivity
+ * Module Output: a set up account fragment ready for use for the View Pager.
+ * Error handling capabilities: none
+ */
+
 package com.example.skyclad.mysqltest;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,16 +49,6 @@ public class AccountFragment extends Fragment {
         data = getArguments().getString(ARG);
         Log.d("viewPager", data);
     }
-
-    /*public void butLogout(View view){
-
-        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("UserData",view.getContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        startActivity(new Intent(view.getContext(),MainActivity.class));
-        ((Activity)view.getContext()).finish();
-    }*/
     @Nullable
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_account,container,false);
