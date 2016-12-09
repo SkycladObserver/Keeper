@@ -1,3 +1,18 @@
+
+/**
+ * Module name: ItemInformationActivity
+ * Description: This module handles the interface that displays the information about an item chose from recyclerView.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: December 4, 2016
+ * Module Parameters: type, title, description, location, time, email, uploader - details about the item. Not necessarily parameters,
+ *              but they are essential that they must be parameters.
+ * Variable names: TextView[] textViews; - text Views in ItemInfoActivity
+ * Files accessed: activity_item_information.xml
+ * Files updated: none
+ * Module Input: same as parameters
+ * Module Output: displays to the user the information about the item he chose from the recyclerView.
+ * Error handling capabilities: null extras.
+ */
 package com.example.skyclad.mysqltest;
 
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +21,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class ItemInformationActivity extends AppCompatActivity {
-    TextView[] textViews; //type,title,description,location,time,email,uploader;
+    TextView[] textViews; //type, title, description, location, time, email, uploader
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

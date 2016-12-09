@@ -1,12 +1,22 @@
+/**
+ * Module name: user
+ * Description: This is the User class. Note these are parcelable (a more efficient serializable), thus the less familiar implementation of item.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: October 29, 2016
+ * Module Parameters: String name, String uname, String pass
+ *              - these data is the identifies a user.
+ * Variable names: basically the same as the parameters.
+ * Files accessed: none
+ * Files updated: none
+ * Module Input: Data from the server.
+ * Module Output: Class item that holds data about an item.
+ * Error handling capabilities: none
+ */
 package com.example.skyclad.mysqltest;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
-/**
- * Created by acer on 10/29/2016.
- */
 
 public class User implements Parcelable {
     private String name,uname,pass;

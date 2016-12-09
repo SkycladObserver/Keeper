@@ -1,11 +1,21 @@
+/**
+ * Module name: Item
+ * Description: This is the Item class. Note these are parcelable (a more efficient serializable), thus the less familiar implementation of item.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: November 1, 2016
+ * Module Parameters: int itemID, String name, String description, String location, String time, String uploader, String email, int type, int claimed,int userID
+ *              - these data identifies an item.
+ * Variable names: basically the same as the parameters.
+ * Files accessed: none
+ * Files updated: none
+ * Module Input: Data from the server.
+ * Module Output: Class item that holds data about an item.
+ * Error handling capabilities: none
+ */
 package com.example.skyclad.mysqltest;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-/**
- * Created by acer on 11/1/2016.
- */
 
 public class Item implements Parcelable{
     //photo not yet included

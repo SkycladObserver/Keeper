@@ -1,3 +1,26 @@
+/**
+ * Module name: BackgroundTask
+ * Description: This module pushes/retrieves data from the server asynchronously. This is used during Log In (MainActivity), Register,
+ *      and AddItemActivity. This is to be distinguished from MyService which connects asynchronously to the server periodically. Refer to
+ *      MyService.java.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: October 24, 2016
+ * Module Parameters: Context
+ * Variable names:
+ *      int userID; - gets userID from shared preferences for AddItem. userID is an attribute in table Item, that's why it is needed.
+ *      String fname,lname,uname,pass,email; - User Account details for Login. These are instance variables so that the data can still be
+ *          accessed in PostExecute.
+ *      String method; - which function it will perform
+ *      SharedPreferences sharedPreferences; - sharedPreferences
+ *      AlertDialog alertDialog; - Alert Dialog if Login successful, failed, etc.
+ *      Context ctx; - Context
+ * Files accessed: none
+ * Files updated: none
+ * Module Input: Data from either Log in, Register, or Add Item.
+ * Module Output: Log in verification, Account created, or Added item verification respectively.
+ * Error handling capabilities: MalformedURLException, IOException,JsonException
+ */
+
 package com.example.skyclad.mysqltest;
 
 import android.app.Activity;
@@ -28,28 +51,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-/**
- * Created by acer on 10/24/2016.
- */
 
 public class BackgroundTask extends AsyncTask<String,Void,String> {
     int userID;
-    public static final String DEFAULT = "N/A";
     String fname,lname,uname,pass,email;
-    String jsonString;
-    String jsonData;
     String method;
     SharedPreferences sharedPreferences;
     AlertDialog alertDialog;
     Context ctx;
-    View rootView;
     public BackgroundTask(Context ctx){
         this.ctx = ctx;
         sharedPreferences = ctx.getSharedPreferences("UserData",ctx.MODE_PRIVATE);
-    }
-    public BackgroundTask(Context ctx,View rootView){
-        this.ctx = ctx;
-        this.rootView = rootView;
     }
 
     @Override
@@ -57,15 +69,13 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         alertDialog = new AlertDialog.Builder(ctx).create();
         alertDialog.setTitle("Login Information");
     }
-
+    /*
+    * method = params[0]. Depending on what value method is, it will perform either register, log in, or add item.
+    *
+     */
     @Override
     protected String doInBackground(String... params) {
-        //10.101.9.90
-        //10.0.2.2
-        //String reg_url = "http://10.101.9.90/webapp/register.php";
-        //String login_url = "http://10.101.9.90/webapp/login.php";
         String add_item_url = "http://skycladobserver.net23.net/add_item.php";
-        String json_url = "http://skycladobserver.net23.net/json_get_data.php";
         String reg_url = "http://skycladobserver.net23.net/register.php";
         String login_url = "http://skycladobserver.net23.net/login.php";
         method = params[0];
@@ -131,7 +141,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 br.close();
                 is.close();
                 httpURLConnection.disconnect();
-                jsonString = sb.toString().trim();//.substring(sb.indexOf("{"));
+                jsonString = sb.toString().trim();
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray jsonArray = jsonObject.getJSONArray("server_response");
                 JSONObject JO = jsonArray.getJSONObject(0);
@@ -195,26 +205,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                 e.printStackTrace();
             }
 
-        }else if(method.equals("getJson")){
-            try {
-                URL url = new URL(json_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                InputStream is = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-                StringBuilder sb = new StringBuilder();
-                String jsonString = "";
-                while((jsonString = bufferedReader.readLine())!=null){
-                    sb.append(jsonString+"\n");
-                }
-                bufferedReader.close();
-                is.close();
-                httpURLConnection.disconnect();
-                return sb.toString().trim();
-            }catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return null;
     }
@@ -224,6 +214,10 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
         super.onProgressUpdate(values);
     }
 
+    /**
+     * onPostExecute executes after doInBackground is done. Again, the function depends on the method.
+     * @param result the return value from doInBackground(String... params)
+     */
     @Override
     protected void onPostExecute(String result) {
         if(result!=null){
@@ -246,9 +240,6 @@ public class BackgroundTask extends AsyncTask<String,Void,String> {
                     ctx.startActivity(new Intent(ctx,ViewPagerActivity.class));
                     ((Activity)ctx).finish();
                 }
-            }else if (method.equals("getJson")){
-                TextView tv = (TextView) rootView;
-                tv.setText(result);
             }
         }else{
             alertDialog.setMessage("Connectivity problems. Please try again when you have internet.");

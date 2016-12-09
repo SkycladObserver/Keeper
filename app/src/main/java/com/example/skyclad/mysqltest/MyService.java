@@ -1,3 +1,32 @@
+/**
+ * Module name: MyService
+ * Description:  Service that handles the periodic access to the server. This is for the RecyclerView in RecyclerViewFragment
+ *      that displays items. This periodic access is also crucial for the notification system. A service is used so that even
+ *      if the user is not using the app, it still works since it is separate from the Application Life Cycle.
+ * Programmer: Brent Carl Anonas
+ * Date Coded: November 17, 2016
+ * Module Parameters: none.
+ * Variable names:
+ *      private static final String TAG = "ServiceThread";  - for error testing.
+ *      private Timer timer; - timer for threading
+ *      SharedPreferences sharedPreferences; - sharedPreferences to access String data that contains all items so that even though
+ *          the user exits the app, the RecyclerView is still populated.
+ *      SharedPreferences.Editor editor; - part of sharedPreferences
+ *      String previousTimestamp = "2016-11-07 09:12:08"; - used for timestamp functionality. Accesses from server.
+ *      int prevID = 0, userIDSharedPrefs = 0; - prevID is used to determine what the latest ID is so that the server doesn't have
+ *              to retrieve all the information from table item over and over again.
+ *      String jsonData; - jsonData from server. Instance Variable because it used in multiple portions of the code.
+ *      User user; - user holder that is returned through the AIDL.
+ *      Item item; - item holder that is returned through the AIDL.
+ *      List<Item> userItems =  Collections.emptyList(); - items of the user himself.
+ *      List<Item> items =  Collections.emptyList(); - all the items from the server.
+ *      List<User> users =  Collections.emptyList(); - list of users.
+ * Files accessed: activity_main.xml, BackgroundTask.java, ViewPagerActivity.java, Register.java
+ * Files updated: none
+ * Module Input: User's log in information.
+ * Module Output: Log in information to be sent to BackgroundTask.java for verification.
+ * Error handling capabilities: none.
+ */
 package com.example.skyclad.mysqltest;
 
 import android.app.NotificationManager;
@@ -40,7 +69,6 @@ public class MyService extends Service {
     private Timer timer;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String jsonString;
     String previousTimestamp = "2016-11-07 09:12:08";
     int prevID = 0;
     int userIDSharedPrefs = 0;
@@ -50,6 +78,9 @@ public class MyService extends Service {
     List<Item> userItems =  Collections.emptyList();
     List<Item> items =  Collections.emptyList();
     List<User> users =  Collections.emptyList();
+    /**
+     * requests from server every 5 seconds.
+     */
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -57,10 +88,13 @@ public class MyService extends Service {
         }
     };
 
+    /**
+     * Refactored. Used to be very inefficient because it retrieved all the data from server. Now it only retrieves the new queries.
+     * What needs to be refactored however is the notification, since it is O(n^3).
+     */
     public void requestFromServer(){
         Log.i(TAG, "Timer task doing work");
         try {
-            //Log.d("timestamp","previousTimestamp: "+previousTimestamp);
             Log.d("timestamp","prevID "+Integer.toString(prevID));
             String json_url = "http://skycladobserver.net23.net/json_get_item_data.php";
             URL url = new URL(json_url);
@@ -77,6 +111,7 @@ public class MyService extends Service {
             InputStream is = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
             StringBuilder sb = new StringBuilder();
+            String jsonString;
             while((jsonString = bufferedReader.readLine())!=null){
                 sb.append(jsonString+"\n");
             }
@@ -90,40 +125,6 @@ public class MyService extends Service {
             }
             Log.d(TAG,jsonData);
             parseJSON(jsonData,items,true);
-                /*
-                JSONObject jsonObject = new JSONObject(jsonData);
-                JSONArray jsonArray = jsonObject.getJSONArray("server_response");
-                int itemID, type, claimed,userID;
-                String name, description, location, time, uploader, email;
-                Log.d("ListView","inside try");
-                //items = new ArrayList<Item>();
-                int count = 0;
-                while (count<jsonArray.length()){
-                    Log.d("ListView","inside while");
-                    JSONObject JO = jsonArray.getJSONObject(count);
-                    itemID = JO.getInt("itemID");
-                    name = JO.getString("name");
-                    description = JO.getString("description");
-                    location = JO.getString("location");
-                    time = JO.getString("time");
-                    uploader = JO.getString("uname");
-                    email = JO.getString("email");
-                    type = JO.getInt("type");
-                    claimed = JO.getInt("claimed");
-                    userID = JO.getInt("userID");
-                    //timestamp = JO.get()
-                    synchronized (resultLock) {
-                        items.add(0,item = new Item(itemID,name,description,location,time,uploader,email,type,claimed,userID));
-                        Log.d("ServiceThread",item.getItemID()+" "+item.getName()+" "+item.getDescription());
-                    }
-                    if(count==jsonArray.length()-1){
-                        prevID = itemID;
-                        Log.d("timestamp","ITEMID "+Integer.toString(prevID));
-                        Log.d("timestamp","currentID "+Integer.toString(prevID));
-                    }
-                    count++;
-
-                }*/
             synchronized (listeners) {
                 for (ItemListener listener : listeners) {
                     try {
@@ -268,17 +269,6 @@ public class MyService extends Service {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        /*
-        Log.d("userItems","in on create");
-
-        Log.d("userItems",Integer.toString(userID));
-        for(int i = 0; i < items.size();i++){
-            Item item = items.get(i);
-            if(item.getUserID()==userID){
-                userItems.add(item);
-                Log.d("userItems",item.getItemID()+" "+item.getName()+" "+item.getDescription()+" "+item.getUserID());
-            }
-        }*/
     }
     @Override
     public void onCreate() {
